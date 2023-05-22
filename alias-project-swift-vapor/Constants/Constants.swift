@@ -11,4 +11,10 @@ public enum Constants {
     public static let padding: CGFloat = 30
     public static let smallPadding: CGFloat = 15
     public static let temCircleWH: CGFloat = 60
+    
+    public static let baseURL: String = ""
+}
+
+public enum Endpoints {
+    public static let rooms = "rooms"
 }

@@ -18,7 +18,17 @@ class MainPageViewModel: ObservableObject {
     @Published var isAddRoomPresented: Bool = false
     
     func fetchRooms() async throws {
+        let urlString = Constants.baseURL + Endpoints.rooms
         
+        guard let url = URL(string: urlString) else {
+            throw HttpError.badURL
+        }
+        
+        let roomResponse: [Room] = try await HttpClient.shared.fetch(url: url)
+        
+        DispatchQueue.main.async {
+            self.publicRooms = roomResponse
+        }
     }
     
     func enterRoomButtonClicked() {
