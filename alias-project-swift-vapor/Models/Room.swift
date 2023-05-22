@@ -1,13 +1,12 @@
-//
-//  Room.swift
-//  Alias
-//
-//  Created by Алиса Вышегородцева on 20.05.2023.
-//
-
 import Foundation
 
-public struct Room: Identifiable {
-    public let id: String
-    public let name: String
+public struct Room: Identifiable, Codable {
+    
+    public var id: UUID?
+    public var name: String
+    var invitationCode: String
+    var isPrivate: Bool
+    var creator: User
+    var admin: User
+    var pointsPerWord: Int = 5
 }

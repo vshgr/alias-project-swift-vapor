@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3CCF41D02A1B678700B686D1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCF41CF2A1B678700B686D1 /* User.swift */; };
-		3CCF41D22A1B685C00B686D1 /* Round.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCF41D12A1B685C00B686D1 /* Round.swift */; };
+		3CCF41D42A1B8A9800B686D1 /* Round.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCF41D32A1B8A9800B686D1 /* Round.swift */; };
+		3CCF41D62A1B8AA200B686D1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCF41D52A1B8AA200B686D1 /* User.swift */; };
+		3CCF41D92A1B8ACD00B686D1 /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCF41D82A1B8ACD00B686D1 /* HttpClient.swift */; };
 		48105DAA2A18D921005216AE /* alias_project_swift_vaporApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48105DA92A18D921005216AE /* alias_project_swift_vaporApp.swift */; };
 		48105DAE2A18D921005216AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48105DAD2A18D921005216AE /* Assets.xcassets */; };
 		48105DB12A18D921005216AE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48105DB02A18D921005216AE /* Preview Assets.xcassets */; };
@@ -33,8 +34,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3CCF41CF2A1B678700B686D1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		3CCF41D12A1B685C00B686D1 /* Round.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Round.swift; sourceTree = "<group>"; };
+		3CCF41D32A1B8A9800B686D1 /* Round.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Round.swift; sourceTree = "<group>"; };
+		3CCF41D52A1B8AA200B686D1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		3CCF41D82A1B8ACD00B686D1 /* HttpClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
 		48105DA62A18D921005216AE /* alias-project-swift-vapor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "alias-project-swift-vapor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		48105DA92A18D921005216AE /* alias_project_swift_vaporApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = alias_project_swift_vaporApp.swift; sourceTree = "<group>"; };
 		48105DAD2A18D921005216AE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -70,6 +72,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3CCF41D72A1B8AC000B686D1 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				3CCF41D82A1B8ACD00B686D1 /* HttpClient.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		48105D9D2A18D921005216AE = {
 			isa = PBXGroup;
 			children = (
@@ -89,6 +99,7 @@
 		48105DA82A18D921005216AE /* alias-project-swift-vapor */ = {
 			isa = PBXGroup;
 			children = (
+				3CCF41D72A1B8AC000B686D1 /* Utilities */,
 				48105DC52A18D9D1005216AE /* Models */,
 				48105DD32A18D9DC005216AE /* Views */,
 				48105DC82A18D9D8005216AE /* ViewModels */,
@@ -133,6 +144,8 @@
 			isa = PBXGroup;
 			children = (
 				48105DC62A18D9D1005216AE /* Room.swift */,
+				3CCF41D32A1B8A9800B686D1 /* Round.swift */,
+				3CCF41D52A1B8AA200B686D1 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -250,7 +263,10 @@
 				48105DC02A18D9C3005216AE /* TeamView.swift in Sources */,
 				48105DC12A18D9C3005216AE /* ButtonView.swift in Sources */,
 				48105DC42A18D9CC005216AE /* Constants.swift in Sources */,
+				3CCF41D92A1B8ACD00B686D1 /* HttpClient.swift in Sources */,
+				3CCF41D42A1B8A9800B686D1 /* Round.swift in Sources */,
 				48105DDF2A18D9DC005216AE /* RoomPage.swift in Sources */,
+				3CCF41D62A1B8AA200B686D1 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
