@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Room: Identifiable {
+public struct Room: Identifiable, Codable {
     public let id: String
     public let name: String
 }
