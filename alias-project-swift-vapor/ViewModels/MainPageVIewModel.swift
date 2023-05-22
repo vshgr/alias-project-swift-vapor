@@ -17,6 +17,10 @@ class MainPageViewModel: ObservableObject {
     @Published var isRoomPagePresented: Bool = false
     @Published var isAddRoomPresented: Bool = false
     
+    func fetchRooms() async throws {
+        
+    }
+    
     func enterRoomButtonClicked() {
         
     }

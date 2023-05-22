@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3CCF41CD2A1B53ED00B686D1 /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCF41CC2A1B53ED00B686D1 /* HttpClient.swift */; };
 		48105DAA2A18D921005216AE /* alias_project_swift_vaporApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48105DA92A18D921005216AE /* alias_project_swift_vaporApp.swift */; };
 		48105DAE2A18D921005216AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48105DAD2A18D921005216AE /* Assets.xcassets */; };
 		48105DB12A18D921005216AE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48105DB02A18D921005216AE /* Preview Assets.xcassets */; };
@@ -31,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3CCF41CC2A1B53ED00B686D1 /* HttpClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
 		48105DA62A18D921005216AE /* alias-project-swift-vapor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "alias-project-swift-vapor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		48105DA92A18D921005216AE /* alias_project_swift_vaporApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = alias_project_swift_vaporApp.swift; sourceTree = "<group>"; };
 		48105DAD2A18D921005216AE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -41,13 +43,13 @@
 		48105DBB2A18D9C3005216AE /* TeamView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamView.swift; sourceTree = "<group>"; };
 		48105DBC2A18D9C3005216AE /* ButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		48105DC32A18D9CC005216AE /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		48105DC62A18D9D1005216AE /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
+		48105DC62A18D9D1005216AE /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Room.swift; path = "/Users/wishnya/alias-game-vapor-ui/alias-project-swift-vapor/Models/Room.swift"; sourceTree = "<absolute>"; };
 		48105DC92A18D9D8005216AE /* MainPageVIewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainPageVIewModel.swift; sourceTree = "<group>"; };
 		48105DCA2A18D9D8005216AE /* WelcomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
 		48105DCB2A18D9D8005216AE /* SingInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingInViewModel.swift; sourceTree = "<group>"; };
 		48105DCC2A18D9D8005216AE /* RoomViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomViewModel.swift; sourceTree = "<group>"; };
 		48105DCD2A18D9D8005216AE /* RegisterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
-		48105DD42A18D9DC005216AE /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		48105DD42A18D9DC005216AE /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = "/Users/wishnya/alias-game-vapor-ui/alias-project-swift-vapor/Views/SettingsView.swift"; sourceTree = "<absolute>"; };
 		48105DD52A18D9DC005216AE /* MainPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainPage.swift; sourceTree = "<group>"; };
 		48105DD62A18D9DC005216AE /* WelcomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		48105DD72A18D9DC005216AE /* SignInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
@@ -66,6 +68,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3CCF41CB2A1B53D400B686D1 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				3CCF41CC2A1B53ED00B686D1 /* HttpClient.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		48105D9D2A18D921005216AE = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +95,7 @@
 		48105DA82A18D921005216AE /* alias-project-swift-vapor */ = {
 			isa = PBXGroup;
 			children = (
+				3CCF41CB2A1B53D400B686D1 /* Utilities */,
 				48105DC52A18D9D1005216AE /* Models */,
 				48105DD32A18D9DC005216AE /* Views */,
 				48105DC82A18D9D8005216AE /* ViewModels */,
@@ -115,8 +126,8 @@
 				48105DBC2A18D9C3005216AE /* ButtonView.swift */,
 			);
 			name = Components;
-			path = "../../Downloads/alias-project-main-2/Alias/Components";
-			sourceTree = "<group>";
+			path = "/Users/wishnya/alias-game-vapor-ui/alias-project-swift-vapor/Components";
+			sourceTree = "<absolute>";
 		};
 		48105DC22A18D9CC005216AE /* Constants */ = {
 			isa = PBXGroup;
@@ -124,8 +135,8 @@
 				48105DC32A18D9CC005216AE /* Constants.swift */,
 			);
 			name = Constants;
-			path = "../../Downloads/alias-project-main-2/Alias/Constants";
-			sourceTree = "<group>";
+			path = "/Users/wishnya/alias-game-vapor-ui/alias-project-swift-vapor/Constants";
+			sourceTree = "<absolute>";
 		};
 		48105DC52A18D9D1005216AE /* Models */ = {
 			isa = PBXGroup;
@@ -133,8 +144,8 @@
 				48105DC62A18D9D1005216AE /* Room.swift */,
 			);
 			name = Models;
-			path = "../../Downloads/alias-project-main-2/Alias/Models";
-			sourceTree = "<group>";
+			path = "/Users/wishnya/alias-game-vapor-ui/alias-project-swift-vapor/Models";
+			sourceTree = "<absolute>";
 		};
 		48105DC82A18D9D8005216AE /* ViewModels */ = {
 			isa = PBXGroup;
@@ -146,8 +157,8 @@
 				48105DCD2A18D9D8005216AE /* RegisterViewModel.swift */,
 			);
 			name = ViewModels;
-			path = "../../Downloads/alias-project-main-2/Alias/ViewModels";
-			sourceTree = "<group>";
+			path = "/Users/wishnya/alias-game-vapor-ui/alias-project-swift-vapor/ViewModels";
+			sourceTree = "<absolute>";
 		};
 		48105DD32A18D9DC005216AE /* Views */ = {
 			isa = PBXGroup;
@@ -160,8 +171,8 @@
 				48105DD92A18D9DC005216AE /* RoomPage.swift */,
 			);
 			name = Views;
-			path = "../../Downloads/alias-project-main-2/Alias/Views";
-			sourceTree = "<group>";
+			path = "/Users/wishnya/alias-game-vapor-ui/alias-project-swift-vapor/Views";
+			sourceTree = "<absolute>";
 		};
 /* End PBXGroup section */
 
@@ -243,6 +254,7 @@
 				48105DDE2A18D9DC005216AE /* RegisterView.swift in Sources */,
 				48105DBF2A18D9C3005216AE /* ParticipantView.swift in Sources */,
 				48105DC72A18D9D1005216AE /* Room.swift in Sources */,
+				3CCF41CD2A1B53ED00B686D1 /* HttpClient.swift in Sources */,
 				48105DCF2A18D9D8005216AE /* WelcomeViewModel.swift in Sources */,
 				48105DCE2A18D9D8005216AE /* MainPageVIewModel.swift in Sources */,
 				48105DD22A18D9D8005216AE /* RegisterViewModel.swift in Sources */,
@@ -308,7 +320,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -362,7 +374,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -377,10 +389,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"alias-project-swift-vapor/Preview Content\"";
-				DEVELOPMENT_TEAM = LM3CWDSTFW;
+				DEVELOPMENT_TEAM = M6T69FPPN9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -395,6 +408,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "FCS.alias-project-swift-vapor";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -406,10 +420,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"alias-project-swift-vapor/Preview Content\"";
-				DEVELOPMENT_TEAM = LM3CWDSTFW;
+				DEVELOPMENT_TEAM = M6T69FPPN9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -424,6 +439,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "FCS.alias-project-swift-vapor";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
