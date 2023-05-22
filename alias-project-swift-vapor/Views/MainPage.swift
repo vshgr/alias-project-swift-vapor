@@ -45,7 +45,14 @@ struct MainPage: View {
                             viewModel.createPrivateRoomButtonClicked()
                         })
                         Button("Create public room", action: {
-                            viewModel.createPublicRoomButtonClicked()
+                            Task {
+                                do {
+                                    try await viewModel.createPublicRoomButtonClicked()
+                                } catch {
+                                    print(error)
+                                }
+                                completion()
+                            }
                         })
                         Button("Cancel", role: .cancel, action: {})
                     }, message: {

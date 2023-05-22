@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3CCF41D02A1B678700B686D1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCF41CF2A1B678700B686D1 /* User.swift */; };
+		3CCF41D22A1B685C00B686D1 /* Round.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCF41D12A1B685C00B686D1 /* Round.swift */; };
 		48105DAA2A18D921005216AE /* alias_project_swift_vaporApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48105DA92A18D921005216AE /* alias_project_swift_vaporApp.swift */; };
 		48105DAE2A18D921005216AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48105DAD2A18D921005216AE /* Assets.xcassets */; };
 		48105DB12A18D921005216AE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48105DB02A18D921005216AE /* Preview Assets.xcassets */; };
@@ -31,6 +33,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3CCF41CF2A1B678700B686D1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		3CCF41D12A1B685C00B686D1 /* Round.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Round.swift; sourceTree = "<group>"; };
 		48105DA62A18D921005216AE /* alias-project-swift-vapor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "alias-project-swift-vapor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		48105DA92A18D921005216AE /* alias_project_swift_vaporApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = alias_project_swift_vaporApp.swift; sourceTree = "<group>"; };
 		48105DAD2A18D921005216AE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -114,8 +118,7 @@
 				48105DBB2A18D9C3005216AE /* TeamView.swift */,
 				48105DBC2A18D9C3005216AE /* ButtonView.swift */,
 			);
-			name = Components;
-			path = "../../Downloads/alias-project-main-2/Alias/Components";
+			path = Components;
 			sourceTree = "<group>";
 		};
 		48105DC22A18D9CC005216AE /* Constants */ = {
@@ -123,8 +126,7 @@
 			children = (
 				48105DC32A18D9CC005216AE /* Constants.swift */,
 			);
-			name = Constants;
-			path = "../../Downloads/alias-project-main-2/Alias/Constants";
+			path = Constants;
 			sourceTree = "<group>";
 		};
 		48105DC52A18D9D1005216AE /* Models */ = {
@@ -132,8 +134,7 @@
 			children = (
 				48105DC62A18D9D1005216AE /* Room.swift */,
 			);
-			name = Models;
-			path = "../../Downloads/alias-project-main-2/Alias/Models";
+			path = Models;
 			sourceTree = "<group>";
 		};
 		48105DC82A18D9D8005216AE /* ViewModels */ = {
@@ -145,8 +146,7 @@
 				48105DCC2A18D9D8005216AE /* RoomViewModel.swift */,
 				48105DCD2A18D9D8005216AE /* RegisterViewModel.swift */,
 			);
-			name = ViewModels;
-			path = "../../Downloads/alias-project-main-2/Alias/ViewModels";
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		48105DD32A18D9DC005216AE /* Views */ = {
@@ -159,8 +159,7 @@
 				48105DD82A18D9DC005216AE /* RegisterView.swift */,
 				48105DD92A18D9DC005216AE /* RoomPage.swift */,
 			);
-			name = Views;
-			path = "../../Downloads/alias-project-main-2/Alias/Views";
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -377,10 +376,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"alias-project-swift-vapor/Preview Content\"";
-				DEVELOPMENT_TEAM = LM3CWDSTFW;
+				DEVELOPMENT_TEAM = M6T69FPPN9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -395,6 +395,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "FCS.alias-project-swift-vapor";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -406,10 +407,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"alias-project-swift-vapor/Preview Content\"";
-				DEVELOPMENT_TEAM = LM3CWDSTFW;
+				DEVELOPMENT_TEAM = M6T69FPPN9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -424,6 +426,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "FCS.alias-project-swift-vapor";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
