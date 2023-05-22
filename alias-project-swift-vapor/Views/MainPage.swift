@@ -51,7 +51,6 @@ struct MainPage: View {
                                 } catch {
                                     print(error)
                                 }
-                                completion()
                             }
                         })
                         Button("Cancel", role: .cancel, action: {})
