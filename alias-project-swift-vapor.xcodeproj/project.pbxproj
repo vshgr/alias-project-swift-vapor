@@ -43,13 +43,13 @@
 		48105DBB2A18D9C3005216AE /* TeamView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamView.swift; sourceTree = "<group>"; };
 		48105DBC2A18D9C3005216AE /* ButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		48105DC32A18D9CC005216AE /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		48105DC62A18D9D1005216AE /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Room.swift; path = "/Users/wishnya/alias-game-vapor-ui/alias-project-swift-vapor/Models/Room.swift"; sourceTree = "<absolute>"; };
+		48105DC62A18D9D1005216AE /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
 		48105DC92A18D9D8005216AE /* MainPageVIewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainPageVIewModel.swift; sourceTree = "<group>"; };
 		48105DCA2A18D9D8005216AE /* WelcomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
 		48105DCB2A18D9D8005216AE /* SingInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingInViewModel.swift; sourceTree = "<group>"; };
 		48105DCC2A18D9D8005216AE /* RoomViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomViewModel.swift; sourceTree = "<group>"; };
 		48105DCD2A18D9D8005216AE /* RegisterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
-		48105DD42A18D9DC005216AE /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = "/Users/wishnya/alias-game-vapor-ui/alias-project-swift-vapor/Views/SettingsView.swift"; sourceTree = "<absolute>"; };
+		48105DD42A18D9DC005216AE /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		48105DD52A18D9DC005216AE /* MainPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainPage.swift; sourceTree = "<group>"; };
 		48105DD62A18D9DC005216AE /* WelcomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		48105DD72A18D9DC005216AE /* SignInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
@@ -125,27 +125,24 @@
 				48105DBB2A18D9C3005216AE /* TeamView.swift */,
 				48105DBC2A18D9C3005216AE /* ButtonView.swift */,
 			);
-			name = Components;
-			path = "/Users/wishnya/alias-game-vapor-ui/alias-project-swift-vapor/Components";
-			sourceTree = "<absolute>";
+			path = Components;
+			sourceTree = "<group>";
 		};
 		48105DC22A18D9CC005216AE /* Constants */ = {
 			isa = PBXGroup;
 			children = (
 				48105DC32A18D9CC005216AE /* Constants.swift */,
 			);
-			name = Constants;
-			path = "/Users/wishnya/alias-game-vapor-ui/alias-project-swift-vapor/Constants";
-			sourceTree = "<absolute>";
+			path = Constants;
+			sourceTree = "<group>";
 		};
 		48105DC52A18D9D1005216AE /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				48105DC62A18D9D1005216AE /* Room.swift */,
 			);
-			name = Models;
-			path = "/Users/wishnya/alias-game-vapor-ui/alias-project-swift-vapor/Models";
-			sourceTree = "<absolute>";
+			path = Models;
+			sourceTree = "<group>";
 		};
 		48105DC82A18D9D8005216AE /* ViewModels */ = {
 			isa = PBXGroup;
@@ -156,9 +153,8 @@
 				48105DCC2A18D9D8005216AE /* RoomViewModel.swift */,
 				48105DCD2A18D9D8005216AE /* RegisterViewModel.swift */,
 			);
-			name = ViewModels;
-			path = "/Users/wishnya/alias-game-vapor-ui/alias-project-swift-vapor/ViewModels";
-			sourceTree = "<absolute>";
+			path = ViewModels;
+			sourceTree = "<group>";
 		};
 		48105DD32A18D9DC005216AE /* Views */ = {
 			isa = PBXGroup;
@@ -170,9 +166,8 @@
 				48105DD82A18D9DC005216AE /* RegisterView.swift */,
 				48105DD92A18D9DC005216AE /* RoomPage.swift */,
 			);
-			name = Views;
-			path = "/Users/wishnya/alias-game-vapor-ui/alias-project-swift-vapor/Views";
-			sourceTree = "<absolute>";
+			path = Views;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -393,7 +388,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"alias-project-swift-vapor/Preview Content\"";
-				DEVELOPMENT_TEAM = M6T69FPPN9;
+				DEVELOPMENT_TEAM = LM3CWDSTFW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -424,7 +419,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"alias-project-swift-vapor/Preview Content\"";
-				DEVELOPMENT_TEAM = M6T69FPPN9;
+				DEVELOPMENT_TEAM = LM3CWDSTFW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
