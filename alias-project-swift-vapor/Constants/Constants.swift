@@ -5,12 +5,17 @@ public enum Constants {
     public static let smallPadding: CGFloat = 15
     public static let temCircleWH: CGFloat = 60
     
-    public static let baseURL: String = "https://957f-2a00-1fa0-825-c901-d8a4-adf6-923d-47c1.eu.ngrok.io/"
+    public static let baseURL: String = "https://alias-swift-api.onrender.com/"
 }
 
-public enum Endpoints {
-    public static let rooms = "game_rooms"
-    public static let users = "users"
-    public static let rounds = "rounds"
-    
+public enum GameRoomEndpoints {
+    public static let getAllRooms = "game-rooms/list-all"
+    public static let createRoom = "game-rooms/create"
+    public static let joinRoom = "game-rooms/join-room"
+    public static let changeRoomSettings = "game-rooms/change-setting"
+    public static let getRoomMembers = "game-rooms/list-members"
+    public static let leaveRoom = "game-rooms/leave-room"
+    public static let closeRoom = "game-rooms/close-room"
+    public static let kickRoomParticipant = "game-rooms/kick-participant"
+    public static let passAdminStatus = "game-rooms/pass-admin-status"
 }

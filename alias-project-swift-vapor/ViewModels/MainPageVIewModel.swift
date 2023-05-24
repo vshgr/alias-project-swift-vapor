@@ -12,7 +12,7 @@ class MainPageViewModel: ObservableObject {
     @Published var isAddRoomPresented: Bool = false
     
     public func fetchRooms() async throws {
-        let urlString = Constants.baseURL + Endpoints.rooms
+        let urlString = Constants.baseURL + GameRoomEndpoints.getAllRooms
         
         guard let url = URL(string: urlString) else {
             throw HttpError.badURL
@@ -34,7 +34,7 @@ class MainPageViewModel: ObservableObject {
     }
     
     func createPublicRoomButtonClicked() async throws {
-        let urlString = Constants.baseURL + Endpoints.rooms
+        let urlString = Constants.baseURL + GameRoomEndpoints.createRoom
         
         guard let url = URL(string: urlString) else {
             throw HttpError.badURL
