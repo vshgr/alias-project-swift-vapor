@@ -42,7 +42,13 @@ struct MainPage: View {
                     .alert("New room", isPresented: $viewModel.isAddRoomPresented, actions: {
                         TextField("room name...", text: $viewModel.newRoomName)
                         Button("Create private room", action: {
-                            viewModel.createPrivateRoomButtonClicked()
+                            Task {
+                                do {
+                                    try await viewModel.createPrivateRoomButtonClicked()
+                                } catch {
+                                    print(error)
+                                }
+                            }
                         })
                         Button("Create public room", action: {
                             Task {

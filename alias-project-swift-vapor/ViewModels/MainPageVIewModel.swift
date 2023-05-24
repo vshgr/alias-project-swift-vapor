@@ -2,7 +2,7 @@ import Foundation
 
 class MainPageViewModel: ObservableObject {
     
-    @Published var publicRooms: [Room] = [.init(name: "Alias", invitationCode: "123", isPrivate: false, creator: User(name: "Yana", email: "wishnya@mail.ru", passwordHash: "aaaaaaaa"), admin: User(name: "Yana", email: "wishnya@mail.ru", passwordHash: "aaaaaaaa"), pointsPerWord: 3)]
+    @Published var publicRooms: [Room] = [.init(name: "test", invitation_code: "123", is_private: false, creator_id: UUID(uuidString: "123e4567-e89b-12d3-a456-426614174000") ?? UUID(), admin_id: UUID(uuidString: "123e4567-e89b-12d3-a456-426614174000") ?? UUID())]
     
     @Published var newRoomName: String = ""
     @Published var roomCode: String = ""
@@ -40,14 +40,24 @@ class MainPageViewModel: ObservableObject {
             throw HttpError.badURL
         }
         
-        let room = Room(name: newRoomName, invitationCode: roomCode, isPrivate: false, creator: User(name: "yana", email: "wishnya@mail.ru", passwordHash: "aaaaa"), admin: User(name: "yana", email: "wishnya@mail.ru", passwordHash: "aaaaa"))
+        let room = Room(name: "yana", invitation_code: "123", is_private: false, creator_id: UUID(uuidString: "B0D52280-4A9B-47AA-9AF0-C529EC786ED8") ?? UUID(), admin_id: UUID(uuidString: "B0D52280-4A9B-47AA-9AF0-C529EC786ED8") ?? UUID())
         
         try await HttpClient.shared.sendData(to: url,
                                              object: room,
                                              httpMethod: HttpMethods.POST.rawValue)
     }
     
-    func createPrivateRoomButtonClicked() {
+    func createPrivateRoomButtonClicked() async throws {
+        let urlString = Constants.baseURL + GameRoomEndpoints.createRoom
         
+        guard let url = URL(string: urlString) else {
+            throw HttpError.badURL
+        }
+        
+        let room = Room(name: "yana", invitation_code: "123", is_private: true, creator_id: UUID(uuidString: "B0D52280-4A9B-47AA-9AF0-C529EC786ED8") ?? UUID(), admin_id: UUID(uuidString: "B0D52280-4A9B-47AA-9AF0-C529EC786ED8") ?? UUID())
+        
+        try await HttpClient.shared.sendData(to: url,
+                                             object: room,
+                                             httpMethod: HttpMethods.POST.rawValue)
     }
 }
