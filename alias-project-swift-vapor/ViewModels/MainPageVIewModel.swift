@@ -1,15 +1,9 @@
-//
-//  MainPageVIewModel.swift
-//  Alias
-//
-//  Created by Алиса Вышегородцева on 20.05.2023.
-//
-
 import Foundation
 
 class MainPageViewModel: ObservableObject {
     
-    @Published var publicRooms: [Room] = [.init(id: "123", name: "Hello world")]
+    @Published var publicRooms: [Room] = [.init(name: "Alias", invitationCode: "123", isPrivate: false, creator: User(name: "Yana", email: "wishnya@mail.ru", passwordHash: "aaaaaaaa"), admin: User(name: "Yana", email: "wishnya@mail.ru", passwordHash: "aaaaaaaa"), pointsPerWord: 3)]
+    
     @Published var newRoomName: String = ""
     @Published var roomCode: String = ""
     @Published var password: String = ""
@@ -17,8 +11,8 @@ class MainPageViewModel: ObservableObject {
     @Published var isRoomPagePresented: Bool = false
     @Published var isAddRoomPresented: Bool = false
     
-    func fetchRooms() async throws {
-        let urlString = Constants.baseURL + Endpoints.rooms
+    public func fetchRooms() async throws {
+        let urlString = Constants.baseURL + GameRoomEndpoints.getAllRooms
         
         guard let url = URL(string: urlString) else {
             throw HttpError.badURL
@@ -39,8 +33,18 @@ class MainPageViewModel: ObservableObject {
         
     }
     
-    func createPublicRoomButtonClicked() {
+    func createPublicRoomButtonClicked() async throws {
+        let urlString = Constants.baseURL + GameRoomEndpoints.createRoom
         
+        guard let url = URL(string: urlString) else {
+            throw HttpError.badURL
+        }
+        
+        let room = Room(name: newRoomName, invitationCode: roomCode, isPrivate: false, creator: User(name: "yana", email: "wishnya@mail.ru", passwordHash: "aaaaa"), admin: User(name: "yana", email: "wishnya@mail.ru", passwordHash: "aaaaa"))
+        
+        try await HttpClient.shared.sendData(to: url,
+                                             object: room,
+                                             httpMethod: HttpMethods.POST.rawValue)
     }
     
     func createPrivateRoomButtonClicked() {

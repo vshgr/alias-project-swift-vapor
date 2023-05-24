@@ -10,7 +10,7 @@ import SwiftUI
 struct MainPage: View {
     
     @ObservedObject private var viewModel = MainPageViewModel()
-
+    
     var body: some View {
         ZStack {
             Color.white.edgesIgnoringSafeArea(.all)
@@ -27,10 +27,10 @@ struct MainPage: View {
                 ScrollView {
                     ForEach (viewModel.publicRooms) { room in
                         RoomView(room: room, buttonClicked: {viewModel.isRoomPagePresented = true})
-                        .navigationDestination(isPresented: $viewModel.isRoomPagePresented) {
-                            RoomPage(viewModel: RoomViewModel(room: room))
-                        }
-                        .padding(.bottom, Constants.smallPadding)
+                            .navigationDestination(isPresented: $viewModel.isRoomPagePresented) {
+                                RoomPage(viewModel: RoomViewModel(room: room))
+                            }
+                            .padding(.bottom, Constants.smallPadding)
                     }
                 }
                 
@@ -45,7 +45,13 @@ struct MainPage: View {
                             viewModel.createPrivateRoomButtonClicked()
                         })
                         Button("Create public room", action: {
-                            viewModel.createPublicRoomButtonClicked()
+                            Task {
+                                do {
+                                    try await viewModel.createPublicRoomButtonClicked()
+                                } catch {
+                                    print(error)
+                                }
+                            }
                         })
                         Button("Cancel", role: .cancel, action: {})
                     }, message: {
@@ -58,6 +64,15 @@ struct MainPage: View {
         .navigationBarBackButtonHidden(true)
         .textFieldStyle(.roundedBorder)
         .padding(.all, Constants.padding)
+        .onAppear() {
+            Task {
+                do {
+                    try await viewModel.fetchRooms()
+                } catch {
+                    print(error)
+                }
+            }
+        }
     }
 }
 
