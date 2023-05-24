@@ -18,7 +18,7 @@ enum HttpHeaders: String {
 
 class HttpClient {
     
-    private init() {
+    public init() {
     }
     
     static let shared = HttpClient()
@@ -35,6 +35,20 @@ class HttpClient {
         }
         
         return object
+    }
+    
+    func execute(url: URL, httpMethod: String) async throws -> Bool {
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = httpMethod
+        
+        let (_, response) = try await URLSession.shared.data(for: request)
+        
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            throw HttpError.badResponse
+        }
+        
+        return true
     }
     
     func sendData<T: Codable>(to url: URL, object: T, httpMethod: String) async throws {
