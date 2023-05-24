@@ -15,10 +15,10 @@ struct MainPage: View {
         ZStack {
             Color.white.edgesIgnoringSafeArea(.all)
             VStack (alignment: .leading) {
-                HStack {
-                    TextField("enter code...", text: $viewModel.roomCode)
+                HStack(spacing: Constants.padding) {
+                    TextFieldView(hint: "enter code...", text: $viewModel.roomCode)
                         .keyboardType(.numberPad)
-                    ButtonView(title: "enter room") {
+                    ButtonView(title: "go") {
                         viewModel.enterRoomButtonClicked()
                     }
                 }
@@ -62,6 +62,19 @@ struct MainPage: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .navigationBarItems(trailing:
+        Button(action: {
+            viewModel.logoutButtonClicked()
+        }, label: {
+            HStack {
+                Text("logout")
+                Image(systemName: "rectangle.portrait.and.arrow.forward")
+            }
+            .foregroundColor(.black)
+        }))
+        .navigationDestination(isPresented: $viewModel.isLoggedOut) {
+            WelcomeView()
+        }
         .textFieldStyle(.roundedBorder)
         .padding(.all, Constants.padding)
         .onAppear() {

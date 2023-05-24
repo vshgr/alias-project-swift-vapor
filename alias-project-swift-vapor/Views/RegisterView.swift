@@ -18,9 +18,9 @@ struct RegisterView: View {
             VStack (alignment: .leading) {
                 Spacer()
                 
-                TextField("username...", text: $viewModel.username)
-                TextField("email...", text: $viewModel.email)
-                SecureField("password...", text: $viewModel.password)
+                TextFieldView(hint: "username...", text: $viewModel.username)
+                TextFieldView(hint: "email...", text: $viewModel.email)
+                TextFieldView(hint: "password...", text: $viewModel.password)
                 
                 Spacer()
                 
@@ -29,7 +29,6 @@ struct RegisterView: View {
                     
                     VStack (alignment: .trailing, spacing: Constants.padding) {
                         ButtonView(title: "register") {
-                            viewModel.isMainPagePresented = true
                             viewModel.registerButtonClicked()
                         }
                         .navigationDestination(isPresented: $viewModel.isMainPagePresented) {
@@ -39,6 +38,9 @@ struct RegisterView: View {
                 }
                 .padding(.bottom, Constants.padding)
             }
+        }
+        .alert(isPresented: $viewModel.isAlertPresented) {
+            Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("OK")))
         }
         .navigationTitle("Registration")
         .textFieldStyle(.roundedBorder)
