@@ -19,3 +19,23 @@ public enum GameRoomEndpoints {
     public static let kickRoomParticipant = "game-rooms/kick-participant"
     public static let passAdminStatus = "game-rooms/pass-admin-status"
 }
+
+public enum TeamEndpoints {
+    public static let getAllTeams = "teams/list-teams"
+    public static let createTeam = "teams/create-team"
+    public static let joinTeam = "teams/join-team"
+    public static let leaveTeam = "teams/leave-team"
+    public static let closeTeam = "teams/close-team"
+}
+
+public enum RoundEndpoints {
+    public static let startRound = "round/start"
+    public static let pauseRound = "round/pause"
+}
+
+public enum UserEndpoints {
+    public static let register = "users/register"
+    public static let login = "users/login"
+    public static let profile = "users/profile"
+    public static let logout = "users/logout"
+}
