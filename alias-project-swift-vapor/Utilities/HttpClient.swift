@@ -16,9 +16,10 @@ enum HttpHeaders: String {
     case contentType = "Content-Type"
 }
 
-class HttpClient {
+class HttpClient: ObservableObject {
     
     public var token: String
+    @Published public var dataDecoded: [Room] = [Room]()
     
     public init() {
         token = "KLj1c1WedW7on2E/wIH5vwNcynYYTCOMqgr8+9zAdfs="
@@ -26,14 +27,12 @@ class HttpClient {
     
     static let shared = HttpClient()
     
-    func fetch<T: Codable>(url: URL) async throws -> [T] {
+    func fetch(url: URL, completion: @escaping ([Room]) -> Void) async throws {
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = [
             "Content-Type": "application/json",
             "Authorization":"Bearer \(token)"
         ]
-        
-        var decoded = [T]()
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard error == nil else { return }
@@ -44,15 +43,16 @@ class HttpClient {
 
             Task {
                 do {
-                    decoded = try await decoder.decode([T].self, from: data)
-                    print(decoded)
+                    self.dataDecoded = try decoder.decode([Room].self, from: data)
+                    print("а вот данные \(self.dataDecoded) они")
+                    DispatchQueue.main.async {
+                        completion(self.dataDecoded)
+                    }
                 } catch {
                     print(error.localizedDescription)
                 }
             }
         }.resume()
-        
-        return decoded
     }
     
     func execute(url: URL, httpMethod: String) async throws -> Bool {

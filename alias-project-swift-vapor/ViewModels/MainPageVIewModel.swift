@@ -21,10 +21,10 @@ class MainPageViewModel: ObservableObject {
         }
         
         do {
-            let roomResponse: [Room] = try await HttpClient.shared.fetch(url: url)
-            print("HUYYYYYYYYYYYYYYYY")
-            print("хуйхуйхуй\(roomResponse)")
-            self.publicRooms = roomResponse
+            try await HttpClient.shared.fetch(url: url) { (rooms) in
+                self.publicRooms = rooms
+            }
+            print("хуйхуйхуй\(publicRooms) я тут")
         } catch {
             print(error)
         }
