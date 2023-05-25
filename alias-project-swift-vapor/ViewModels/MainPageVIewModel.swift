@@ -20,10 +20,13 @@ class MainPageViewModel: ObservableObject {
             throw HttpError.badURL
         }
         
-        let roomResponse: [Room] = try await HttpClient.shared.fetch(url: url)
-        
-        DispatchQueue.main.async {
+        do {
+            let roomResponse: [Room] = try await HttpClient.shared.fetch(url: url)
+            print("HUYYYYYYYYYYYYYYYY")
+            print("хуйхуйхуй\(roomResponse)")
             self.publicRooms = roomResponse
+        } catch {
+            print(error)
         }
     }
     
@@ -37,13 +40,13 @@ class MainPageViewModel: ObservableObject {
     
     func createPublicRoomButtonClicked() async throws {
         let urlString = Constants.baseURL + GameRoomEndpoints.createRoom
-        
+
         guard let url = URL(string: urlString) else {
             throw HttpError.badURL
         }
-        
-        let room = Room(name: "yana", invitation_code: "123", is_private: false, creator_id: UUID(uuidString: "B0D52280-4A9B-47AA-9AF0-C529EC786ED8") ?? UUID(), admin_id: UUID(uuidString: "B0D52280-4A9B-47AA-9AF0-C529EC786ED8") ?? UUID())
-        
+
+        let room = Room(name: newRoomName, creator: "ya", isPrivate: false, admin: "ya")
+
         try await HttpClient.shared.sendData(to: url,
                                              object: room,
                                              httpMethod: HttpMethods.POST.rawValue)
@@ -51,20 +54,20 @@ class MainPageViewModel: ObservableObject {
     
     func createPrivateRoomButtonClicked() async throws {
         let urlString = Constants.baseURL + GameRoomEndpoints.createRoom
-        
+
         guard let url = URL(string: urlString) else {
             throw HttpError.badURL
         }
-        
-        let room = Room(name: "yana", invitation_code: "123", is_private: true, creator_id: UUID(uuidString: "B0D52280-4A9B-47AA-9AF0-C529EC786ED8") ?? UUID(), admin_id: UUID(uuidString: "B0D52280-4A9B-47AA-9AF0-C529EC786ED8") ?? UUID())
-        
+
+        let room = Room(name: newRoomName, creator: "ya", isPrivate: true, admin: "ya")
+
         try await HttpClient.shared.sendData(to: url,
                                              object: room,
                                              httpMethod: HttpMethods.POST.rawValue)
     }
     
     func logout() async throws {
-        let urlString = Constants.baseURL + Endpoints.users + "/logout"
+        let urlString = Constants.baseURL + UserEndpoints.logout
         guard let url = URL(string: urlString) else {
             throw HttpError.badURL
         }
@@ -73,6 +76,15 @@ class MainPageViewModel: ObservableObject {
     }
     
     func logoutButtonClicked() {
-        
+        Task {
+            do {
+                try await logout()
+            } catch {
+                
+            }
+            DispatchQueue.main.async {
+                self.isLoggedOut = true
+            }
+        }
     }
 }

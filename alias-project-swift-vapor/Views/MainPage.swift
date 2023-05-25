@@ -85,11 +85,7 @@ struct MainPage: View {
         .padding(.all, Constants.padding)
         .onAppear() {
             Task {
-                do {
-                    try await viewModel.fetchRooms()
-                } catch {
-                    print(error)
-                }
+                try await viewModel.fetchRooms()
             }
         }
     }

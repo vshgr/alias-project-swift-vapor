@@ -16,7 +16,7 @@ class RegisterViewModel: ObservableObject {
     @Published var isMainPagePresented: Bool = false
     
     func register() async throws {
-        let urlString = Constants.baseURL + Endpoints.users + "/register"
+        let urlString = Constants.baseURL + UserEndpoints.register
         guard let url = URL(string: urlString) else {
             throw HttpError.badURL
         }
@@ -31,11 +31,15 @@ class RegisterViewModel: ObservableObject {
             do {
                 try await register()
             } catch {
-                errorMessage = error.localizedDescription
-                isMainPagePresented = false
-                isAlertPresented = true
+                DispatchQueue.main.async {
+                    self.errorMessage = error.localizedDescription
+                    self.isMainPagePresented = false
+                    self.isAlertPresented = true
+                }
             }
-            isMainPagePresented = true
+            DispatchQueue.main.async {
+                self.isMainPagePresented = true
+            }
         }
     }
 }

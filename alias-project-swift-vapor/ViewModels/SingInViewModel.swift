@@ -15,7 +15,7 @@ class SingInViewModel: ObservableObject {
     @Published var isMainPagePresented: Bool = false
     
     func login() async throws {
-        let urlString = Constants.baseURL + Endpoints.users + "/login"
+        let urlString = Constants.baseURL + UserEndpoints.login
         guard let url = URL(string: urlString) else {
             throw HttpError.badURL
         }
@@ -29,11 +29,15 @@ class SingInViewModel: ObservableObject {
             do {
                 try await login()
             } catch {
-                errorMessage = error.localizedDescription
-                isMainPagePresented = false
-                isAlertPresented = true
+                DispatchQueue.main.async {
+                    self.errorMessage = error.localizedDescription
+                    self.isMainPagePresented = false
+                    self.isAlertPresented = true
+                }
             }
-            isMainPagePresented = true
+            DispatchQueue.main.async {
+                self.isMainPagePresented = true
+            }
         }
     }
 }
