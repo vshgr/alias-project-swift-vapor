@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Room: Identifiable, Codable {
+public class Room: Identifiable, Codable, ObservableObject {
     
     public var id: String?
     public var name: String
@@ -19,7 +19,7 @@ public struct Room: Identifiable, Codable {
         self.admin = admin
     }
     
-    public init(from decoder: Decoder) throws {
+    required public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         id = try values.decode(String.self, forKey: .id)

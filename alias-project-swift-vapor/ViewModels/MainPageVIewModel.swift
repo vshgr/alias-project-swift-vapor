@@ -13,20 +13,16 @@ class MainPageViewModel: ObservableObject {
     @Published var isRoomPagePresented: Bool = false
     @Published var isAddRoomPresented: Bool = false
     
-    public func fetchRooms() async throws {
+    public func fetchRooms(completion: @escaping ([Room]) -> Void) async throws {
         let urlString = Constants.baseURL + GameRoomEndpoints.getAllRooms
         
         guard let url = URL(string: urlString) else {
             throw HttpError.badURL
         }
         
-        do {
-            try await HttpClient.shared.fetch(url: url) { (rooms) in
-                self.publicRooms = rooms
-            }
-            print("хуйхуйхуй\(publicRooms) я тут")
-        } catch {
-            print(error)
+        await HttpClient.shared.fetch(url: url) { [weak self] (rooms, error) in
+            self?.publicRooms = rooms ?? [Room]()
+            completion(self?.publicRooms ?? [Room]())
         }
     }
     
@@ -40,13 +36,13 @@ class MainPageViewModel: ObservableObject {
     
     func createPublicRoomButtonClicked() async throws {
         let urlString = Constants.baseURL + GameRoomEndpoints.createRoom
-
+        
         guard let url = URL(string: urlString) else {
             throw HttpError.badURL
         }
-
+        
         let room = Room(name: newRoomName, creator: "ya", isPrivate: false, admin: "ya")
-
+        
         try await HttpClient.shared.sendData(to: url,
                                              object: room,
                                              httpMethod: HttpMethods.POST.rawValue)
@@ -54,13 +50,13 @@ class MainPageViewModel: ObservableObject {
     
     func createPrivateRoomButtonClicked() async throws {
         let urlString = Constants.baseURL + GameRoomEndpoints.createRoom
-
+        
         guard let url = URL(string: urlString) else {
             throw HttpError.badURL
         }
-
+        
         let room = Room(name: newRoomName, creator: "ya", isPrivate: true, admin: "ya")
-
+        
         try await HttpClient.shared.sendData(to: url,
                                              object: room,
                                              httpMethod: HttpMethods.POST.rawValue)

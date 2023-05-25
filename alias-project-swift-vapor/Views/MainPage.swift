@@ -10,6 +10,11 @@ import SwiftUI
 struct MainPage: View {
     
     @ObservedObject private var viewModel = MainPageViewModel()
+    @State private var rooms: [Room] = [Room]()
+    
+    public init(viewModel: MainPageViewModel = MainPageViewModel()) {
+        self.viewModel = viewModel
+    }
     
     var body: some View {
         ZStack {
@@ -24,8 +29,9 @@ struct MainPage: View {
                 }
                 TitleView(title: "Open rooms")
                     .padding(.top , Constants.smallPadding)
+                Text(rooms.isEmpty.description).foregroundColor(.black)
                 ScrollView {
-                    ForEach (viewModel.publicRooms) { room in
+                    ForEach (rooms) { room in
                         RoomView(room: room, buttonClicked: {viewModel.isRoomPagePresented = true})
                             .navigationDestination(isPresented: $viewModel.isRoomPagePresented) {
                                 RoomPage(viewModel: RoomViewModel(room: room))
@@ -85,7 +91,9 @@ struct MainPage: View {
         .padding(.all, Constants.padding)
         .onAppear() {
             Task {
-                try await viewModel.fetchRooms()
+                try await viewModel.fetchRooms() { (rooms) in
+                    self.rooms = rooms
+                }
             }
         }
     }

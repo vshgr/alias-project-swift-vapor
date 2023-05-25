@@ -19,7 +19,6 @@ enum HttpHeaders: String {
 class HttpClient: ObservableObject {
     
     public var token: String
-    @Published public var dataDecoded: [Room] = [Room]()
     
     public init() {
         token = "KLj1c1WedW7on2E/wIH5vwNcynYYTCOMqgr8+9zAdfs="
@@ -27,30 +26,42 @@ class HttpClient: ObservableObject {
     
     static let shared = HttpClient()
     
-    func fetch(url: URL, completion: @escaping ([Room]) -> Void) async throws {
+    //    func fetch<T: Codable>(url: URL) async throws -> [T] {
+    //        let (data, response) = try await URLSession.shared.data(from: url)
+    //
+    //        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+    //            throw HttpError.badResponse
+    //        }
+    //
+    //        guard let object = try? JSONDecoder().decode([T].self, from: data) else {
+    //            throw HttpError.errorDecodingData
+    //        }
+    //        return object
+    //    }
+    
+    
+    func fetch<T: Codable>(url: URL, completion: @escaping ([T]?, Error?) -> Void) async {
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = [
             "Content-Type": "application/json",
             "Authorization":"Bearer \(token)"
         ]
         
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard error == nil else { return }
-            guard let data = data else { return }
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                DispatchQueue.main.async {
+                    completion(nil, error)
+                }
+                return
+            }
             print(String(data: data, encoding: String.Encoding.utf8) ?? "")
             
             let decoder = JSONDecoder()
-
-            Task {
-                do {
-                    self.dataDecoded = try decoder.decode([Room].self, from: data)
-                    print("а вот данные \(self.dataDecoded) они")
-                    DispatchQueue.main.async {
-                        completion(self.dataDecoded)
-                    }
-                } catch {
-                    print(error.localizedDescription)
-                }
+            
+            let dataDecoded = try? decoder.decode([T].self, from: data)
+            print("а вот данные \(String(describing: dataDecoded)) они")
+            DispatchQueue.main.async {
+                completion(dataDecoded, nil)
             }
         }.resume()
     }
