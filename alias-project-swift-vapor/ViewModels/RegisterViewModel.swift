@@ -15,30 +15,21 @@ class RegisterViewModel: ObservableObject {
     @Published var errorMessage: String = ""
     @Published var isMainPagePresented: Bool = false
     
-    func register() async throws {
-        let urlString = Constants.baseURL + UserEndpoints.register
-        guard let url = URL(string: urlString) else {
-            throw HttpError.badURL
-        }
-        let user = User(name: username, email: email, password: password)
-        
-        try await  HttpClient.shared.sendData(to: url, object: user, httpMethod: HttpMethods.POST.rawValue)
-    }
-    
-    
     func registerButtonClicked() {
-        Task {
-            do {
-                try await register()
-            } catch {
+        HttpClient.shared.removeAuthToken()
+        HttpClient.shared.register(name: username, email: email, password: password) { result in
+            switch result {
+            case .success(let token):
+                HttpClient.shared.saveAuthToken(token: token)
                 DispatchQueue.main.async {
-                    self.errorMessage = error.localizedDescription
-                    self.isMainPagePresented = false
-                    self.isAlertPresented = true
+                    self.isMainPagePresented = true
                 }
-            }
-            DispatchQueue.main.async {
-                self.isMainPagePresented = true
+            case .failure(let error):
+                print("Ошибка регистрации: \(error)")
+                DispatchQueue.main.async {
+                    self.isAlertPresented = true
+                    self.errorMessage = "Ошибка регистрации: \(error)"
+                }
             }
         }
     }

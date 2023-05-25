@@ -16,35 +16,42 @@ enum HttpHeaders: String {
     case contentType = "Content-Type"
 }
 
+struct LoginResponse: Codable {
+    let value: String
+    let id: String
+    let user: User
+}
+
+
 class HttpClient: ObservableObject {
-    
-    public var token: String
-    
+        
     public init() {
-        token = "KLj1c1WedW7on2E/wIH5vwNcynYYTCOMqgr8+9zAdfs="
     }
     
     static let shared = HttpClient()
+
+    // Функция для сохранения токена авторизации в UserDefaults
+    func saveAuthToken(token: String) {
+        UserDefaults.standard.set(token, forKey: "AuthToken")
+    }
+
+    // Функция для загрузки токена авторизации из UserDefaults
+    func loadAuthToken() -> String? {
+        return UserDefaults.standard.string(forKey: "AuthToken")
+    }
     
-    //    func fetch<T: Codable>(url: URL) async throws -> [T] {
-    //        let (data, response) = try await URLSession.shared.data(from: url)
-    //
-    //        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-    //            throw HttpError.badResponse
-    //        }
-    //
-    //        guard let object = try? JSONDecoder().decode([T].self, from: data) else {
-    //            throw HttpError.errorDecodingData
-    //        }
-    //        return object
-    //    }
-    
-    
+    // Функция для удаления токена авторизации из UserDefaults
+    func removeAuthToken() {
+        UserDefaults.standard.removeObject(forKey: "AuthToken")
+    }
+
+
     func fetch<T: Codable>(url: URL, completion: @escaping ([T]?, Error?) -> Void) async {
         var request = URLRequest(url: url)
+        let token = loadAuthToken()
         request.allHTTPHeaderFields = [
             "Content-Type": "application/json",
-            "Authorization":"Bearer \(token)"
+            "Authorization":"Bearer \(token ?? "error")"
         ]
         
         URLSession.shared.dataTask(with: request) { data, response, error in
@@ -70,6 +77,11 @@ class HttpClient: ObservableObject {
         var request = URLRequest(url: url)
         
         request.httpMethod = httpMethod
+        let token = loadAuthToken()
+        request.allHTTPHeaderFields = [
+            "Content-Type": "application/json",
+            "Authorization":"Bearer \(token ?? "error")"
+        ]
         
         let (_, response) = try await URLSession.shared.data(for: request)
         
@@ -86,7 +98,6 @@ class HttpClient: ObservableObject {
         request.httpMethod = httpMethod
         request.addValue(MIMEType.JSON.rawValue,
                          forHTTPHeaderField: HttpHeaders.contentType.rawValue)
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
         request.httpBody = try? JSONEncoder().encode(object)
         print(String(decoding: request.httpBody!, as: UTF8.self))
@@ -97,5 +108,94 @@ class HttpClient: ObservableObject {
             print((response as? HTTPURLResponse)?.statusCode ?? 0)
             throw HttpError.badResponse
         }
+    }
+
+    
+    func login(email: String, password: String, completion: @escaping (Result<String, Error>) -> Void) {
+        let params = ["email": email, "password": password]
+        
+        let urlString = Constants.baseURL + UserEndpoints.login
+        guard let url = URL(string: urlString) else {
+            completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Конвертируем параметры запроса в JSON
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
+        } catch {
+            completion(.failure(error))
+        }
+        
+        // Отправляем запрос
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                completion(.failure(error))
+            }
+            
+            // Проверяем наличие данных
+            guard let data = data else {
+                completion(.failure(NSError(domain: "No data received", code: 0, userInfo: nil)))
+                return
+            }
+            
+            // Парсим полученные данные
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                if let token = json?["value"] as? String {
+                    completion(.success(token))
+                } else {
+                    completion(.failure(NSError(domain: "Invalid response", code: 0, userInfo: nil)))
+                }
+            } catch {
+                completion(.failure(error))
+            }
+        }
+        
+        task.resume()
+        
+    }
+    
+    func register(name: String, email: String, password: String, completion: @escaping (Result<String, Error>) -> Void) {
+        let params = ["name": name, "email": email, "password": password]
+        let urlString = Constants.baseURL + UserEndpoints.register
+        guard let url = URL(string: urlString) else {
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Конвертируем параметры запроса в JSON
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
+        } catch {
+            completion(.failure(error))
+        }
+        
+        // Отправляем запрос
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                completion(.failure(error))
+            }
+                        
+            self.login(email: email, password: password) { result in
+                switch result {
+                case .success(let token):
+                    print("Авторизация и регистрация успешны! Токен: \(token)")
+                    completion(.success(token))
+                case .failure(let error):
+                    completion(.failure(error))
+                    print("Ошибка авторизации: \(error)")
+                }
+            }
+        }
+        
+        task.resume()
     }
 }

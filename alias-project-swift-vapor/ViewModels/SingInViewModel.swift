@@ -14,29 +14,23 @@ class SingInViewModel: ObservableObject {
     @Published var errorMessage: String = ""
     @Published var isMainPagePresented: Bool = false
     
-    func login() async throws {
-        let urlString = Constants.baseURL + UserEndpoints.login
-        guard let url = URL(string: urlString) else {
-            throw HttpError.badURL
-        }
-        let user = UserLogin(email: email, password: password)
-        
-        try await  HttpClient.shared.sendData(to: url, object: user, httpMethod: HttpMethods.POST.rawValue)
-    }
     
     func singInButtonClicked() {
-        Task {
-            do {
-                try await login()
-            } catch {
+        HttpClient.shared.removeAuthToken()
+        HttpClient.shared.login(email: email, password: password) { result in
+            switch result {
+            case .success(let token):
+                print("Авторизация успешна! Токен: \(token)")
+                HttpClient.shared.saveAuthToken(token: token)
                 DispatchQueue.main.async {
-                    self.errorMessage = error.localizedDescription
-                    self.isMainPagePresented = false
-                    self.isAlertPresented = true
+                    self.isMainPagePresented = true
                 }
-            }
-            DispatchQueue.main.async {
-                self.isMainPagePresented = true
+            case .failure(let error):
+                print("Ошибка авторизации: \(error)")
+                DispatchQueue.main.async {
+                    self.isAlertPresented = true
+                    self.errorMessage = "Ошибка авторизации: \(error)"
+                }
             }
         }
     }
