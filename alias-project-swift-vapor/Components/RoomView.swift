@@ -33,8 +33,8 @@ struct RoomView: View {
         } label: {
             HStack(alignment: .center){
                 Circle()
-                    .fill(color)
-                    .frame(width: Constants.padding, height: Constants.padding)
+                    .fill(.green)
+                    .frame(width: Constants.smallPadding, height: Constants.smallPadding)
                 Text(room.name)
                     .foregroundColor(.black)
                 Spacer()
@@ -43,6 +43,6 @@ struct RoomView: View {
             }
             .padding()
         }
-        .background(color.opacity(0.1))
+        .background(.gray.opacity(0.1))
     }
 }

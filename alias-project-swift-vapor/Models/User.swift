@@ -12,3 +12,7 @@ public struct UserLogin: Codable {
     public var email: String
     public var password: String
 }
+
+public struct UserId: Codable {
+    public var id: String
+}

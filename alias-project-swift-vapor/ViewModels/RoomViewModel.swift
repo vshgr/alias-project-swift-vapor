@@ -12,7 +12,7 @@ class RoomViewModel: ObservableObject {
     @Published var teamName: String = ""
     @Published var showingAlert: Bool = false
     @Published var isAddTeamPresented: Bool = false
-    @Published var roomCode: String = "aaa"
+    @Published var roomCode: String = ""
     @Published var isSettingsPagePresented: Bool = false
     
     let room: Room

@@ -12,17 +12,21 @@ class MainPageViewModel: ObservableObject {
     @Published var isLoggedOut: Bool = false
     @Published var isRoomPagePresented: Bool = false
     @Published var isAddRoomPresented: Bool = false
+    @Published var selectedRoom: Room?
     
-    public func fetchRooms(completion: @escaping ([Room]) -> Void) async throws {
+    init() {
+        fetchRooms()
+    }
+    
+    public func fetchRooms() {
         let urlString = Constants.baseURL + GameRoomEndpoints.getAllRooms
         
         guard let url = URL(string: urlString) else {
-            throw HttpError.badURL
+            return
         }
         
-        await HttpClient.shared.fetch(url: url) { [weak self] (rooms, error) in
+        HttpClient.shared.fetch(url: url) { [weak self] (rooms, error) in
             self?.publicRooms = rooms ?? [Room]()
-            completion(self?.publicRooms ?? [Room]())
         }
     }
     

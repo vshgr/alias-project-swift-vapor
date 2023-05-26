@@ -31,7 +31,7 @@ struct MainPage: View {
                     TitleView(title: "Open rooms")
                         .padding(.top , Constants.smallPadding)
                     ScrollView {
-                        ForEach (rooms) { room in
+                        ForEach (viewModel.publicRooms) { room in
                             RoomView(room: room, buttonClicked: {viewModel.isRoomPagePresented = true})
                                 .navigationDestination(isPresented: $viewModel.isRoomPagePresented) {
                                     RoomPage(viewModel: RoomViewModel(room: room))
@@ -40,11 +40,7 @@ struct MainPage: View {
                         }
                     }
                     .refreshable {
-                        Task {
-                            try await viewModel.fetchRooms() { (rooms) in
-                                self.rooms = rooms
-                            }
-                        }
+                        viewModel.fetchRooms()
                     }
                     
                     HStack {
@@ -96,11 +92,7 @@ struct MainPage: View {
             .textFieldStyle(.roundedBorder)
             .padding(.all, Constants.padding)
             .onAppear() {
-                Task {
-                    try await viewModel.fetchRooms() { (rooms) in
-                        self.rooms = rooms
-                    }
-                }
+                viewModel.fetchRooms()
             }
         }
         .navigationBarBackButtonHidden(true)

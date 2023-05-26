@@ -68,7 +68,7 @@ class HttpClient: ObservableObject {
     }
 
 
-    func fetch<T: Codable>(url: URL, completion: @escaping ([T]?, Error?) -> Void) async {
+    func fetch<T: Codable>(url: URL, completion: @escaping ([T]?, Error?) -> Void) {
         var request = URLRequest(url: url)
         let token = loadAuthToken()
         request.allHTTPHeaderFields = [
@@ -76,26 +76,24 @@ class HttpClient: ObservableObject {
             "Authorization":"Bearer \(token ?? "error")"
         ]
         
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
                 DispatchQueue.main.async {
                     completion(nil, error)
                 }
                 return
             }
-            print(String(data: data, encoding: String.Encoding.utf8) ?? "")
             
             let decoder = JSONDecoder()
             
-            
             let dataDecoded = try? decoder.decode([T].self, from: data)
             
-            
-            print("а вот данные \(String(describing: dataDecoded)) они")
             DispatchQueue.main.async {
                 completion(dataDecoded, nil)
             }
-        }.resume()
+        }
+        
+        task.resume()
     }
     
     func execute(url: URL, httpMethod: String) async throws -> Bool {
@@ -117,6 +115,39 @@ class HttpClient: ObservableObject {
         return true
     }
     
+    func joinRoom(invCode: String, gameRoomId: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+        let params = ["invitationCode": invCode, "gameRoomId": gameRoomId]
+        let urlString = Constants.baseURL + GameRoomEndpoints.joinRoom
+        guard let url = URL(string: urlString) else {
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        let token = loadAuthToken()
+        request.allHTTPHeaderFields = [
+            "Content-Type": "application/json",
+            "Authorization": "Bearer \(token ?? "error")"
+        ]
+        
+        // Конвертируем параметры запроса в JSON
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
+        } catch {
+            completion(.failure(error))
+        }
+        
+        // Отправляем запрос
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                completion(.failure(error))
+            }
+        }
+        
+        task.resume()
+    }
+    
     func sendDataCreateRoom(to url: URL, object: Room, httpMethod: String, completion: @escaping (Result<Room, Error>) -> Void) async throws {
         var request = URLRequest(url: url)
         
@@ -135,13 +166,10 @@ class HttpClient: ObservableObject {
             }
             let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
             if let responseJSON = responseJSON as? [String: Any] {
-                let creatorId = responseJSON["creator"] as? [String: Any]
-                let adminId = responseJSON["admin"] as? [String: Any]
-                
                 let room = Room(name: responseJSON["name"] as? String ?? "",
                                 isPrivate: responseJSON["isPrivate"] as? Bool ?? false,
-                                creator: creatorId?["id"] as? String ?? "",
-                                admin: adminId?["id"] as? String ?? "",
+                                creator: responseJSON["creator"] as? UserId,
+                                admin: responseJSON["admin"] as? UserId,
                                 invCode: responseJSON["invitationCode"] as? String ?? "aa")
                 
                 completion(.success(room))
