@@ -42,7 +42,7 @@ class RoomViewModel: ObservableObject {
         }
         
         if !(try await HttpClient.shared.execute(url: url,
-                                               httpMethod: HttpMethods.POST.rawValue)) {
+                                                 httpMethod: HttpMethods.POST.rawValue, id: room.id ?? "")) {
             print("error deleting")
         }
     }

@@ -96,7 +96,8 @@ class HttpClient: ObservableObject {
         task.resume()
     }
     
-    func execute(url: URL, httpMethod: String) async throws -> Bool {
+    func execute(url: URL, httpMethod: String, id: String) async throws -> Bool {
+        let params = ["gameRoomId": id]
         var request = URLRequest(url: url)
         
         request.httpMethod = httpMethod
@@ -105,6 +106,12 @@ class HttpClient: ObservableObject {
             "Content-Type": "application/json",
             "Authorization":"Bearer \(token ?? "error")"
         ]
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
+        } catch {
+            print("error")
+        }
         
         let (_, response) = try await URLSession.shared.data(for: request)
         
