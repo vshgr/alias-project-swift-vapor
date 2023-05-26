@@ -11,7 +11,11 @@ import SwiftUI
 struct alias_project_swift_vaporApp: App {
     var body: some Scene {
         WindowGroup {
-            WelcomeView()
+            if !HttpClient.shared.isAuthenticated() {
+                WelcomeView()
+            } else {
+                MainPage()
+            }
         }
     }
 }

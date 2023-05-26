@@ -62,25 +62,15 @@ class MainPageViewModel: ObservableObject {
                                              httpMethod: HttpMethods.POST.rawValue)
     }
     
-    func logout() async throws {
-        let urlString = Constants.baseURL + UserEndpoints.logout
-        guard let url = URL(string: urlString) else {
-            throw HttpError.badURL
-        }
-        isLoggedOut = try await HttpClient.shared.execute(url: url, httpMethod: HttpMethods.POST.rawValue)
-        isAlertPresented = !isLoggedOut
-    }
-    
     func logoutButtonClicked() {
-        Task {
-            do {
-                try await logout()
-            } catch {
-                
-            }
-            DispatchQueue.main.async {
+        HttpClient.shared.logout { result in
+            switch result {
+            case .success:
                 self.isLoggedOut = true
+            case .failure(let failure):
+                print(failure.localizedDescription)
             }
         }
+        isAlertPresented = !isLoggedOut
     }
 }

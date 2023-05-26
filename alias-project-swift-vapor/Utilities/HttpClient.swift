@@ -42,7 +42,11 @@ class HttpClient: ObservableObject {
     
     // Функция для удаления токена авторизации из UserDefaults
     func removeAuthToken() {
-        UserDefaults.standard.removeObject(forKey: "AuthToken")
+        UserDefaults.standard.set(nil, forKey: "AuthToken")
+    }
+    
+    func isAuthenticated() -> Bool {
+        return UserDefaults.standard.string(forKey: "AuthToken") != nil
     }
 
 
@@ -108,6 +112,34 @@ class HttpClient: ObservableObject {
             print((response as? HTTPURLResponse)?.statusCode ?? 0)
             throw HttpError.badResponse
         }
+    }
+    
+    func logout(completion: @escaping (Result<Bool,Error>) -> Void) {
+        let urlString = Constants.baseURL + UserEndpoints.logout
+        guard let url = URL(string: urlString) else {
+            completion(.failure(HttpError.invalidURL))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        let token = loadAuthToken()
+        request.allHTTPHeaderFields = [
+            "Content-Type": "application/json",
+            "Authorization":"Bearer \(token ?? "error")"
+        ]
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                completion(.failure(error))
+            }
+        }
+        
+        task.resume()
+        
+        UserDefaults.standard.set(nil, forKey: "AuthToken")
+        completion(.success(true))
     }
 
     

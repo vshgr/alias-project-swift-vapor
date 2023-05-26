@@ -17,6 +17,7 @@ struct MainPage: View {
     }
     
     var body: some View {
+        
         ZStack {
             Color.white.edgesIgnoringSafeArea(.all)
             VStack (alignment: .leading) {
@@ -29,7 +30,6 @@ struct MainPage: View {
                 }
                 TitleView(title: "Open rooms")
                     .padding(.top , Constants.smallPadding)
-                Text(rooms.isEmpty.description).foregroundColor(.black)
                 ScrollView {
                     ForEach (rooms) { room in
                         RoomView(room: room, buttonClicked: {viewModel.isRoomPagePresented = true})
@@ -41,6 +41,15 @@ struct MainPage: View {
                 }
                 
                 HStack {
+                    Button(action: {
+                        viewModel.logoutButtonClicked()
+                    }, label: {
+                        HStack {
+                            Text("logout")
+                            Image(systemName: "rectangle.portrait.and.arrow.forward")
+                        }
+                        .foregroundColor(.black)
+                    })
                     Spacer()
                     ButtonView(title: "create room") {
                         viewModel.isAddRoomPresented = true
@@ -74,16 +83,6 @@ struct MainPage: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .navigationBarItems(trailing:
-        Button(action: {
-            viewModel.logoutButtonClicked()
-        }, label: {
-            HStack {
-                Text("logout")
-                Image(systemName: "rectangle.portrait.and.arrow.forward")
-            }
-            .foregroundColor(.black)
-        }))
         .navigationDestination(isPresented: $viewModel.isLoggedOut) {
             WelcomeView()
         }
