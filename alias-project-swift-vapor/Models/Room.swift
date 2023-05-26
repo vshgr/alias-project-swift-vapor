@@ -4,19 +4,33 @@ public class Room: Identifiable, Codable, ObservableObject {
     
     public var id: String?
     public var name: String
-    public var creator: String
+    public var creator: String?
     public var isPrivate: Bool
-    public var admin: String
+    public var admin: String?
+    public var invitationCode: Int?
     
     enum CodingKeys: String, CodingKey {
         case id, name, isPrivate, creator, admin
     }
     
-    public init(name: String, creator: String, isPrivate: Bool, admin: String) {
+    public init(name: String, isPrivate: Bool, creator: String?, admin: String?, invitationCode: Int?) {
         self.name = name
-        self.creator = creator
         self.isPrivate = isPrivate
+        self.creator = creator
         self.admin = admin
+        self.invitationCode = invitationCode
+    }
+    
+    public func setInvitationCode(invCode: Int) {
+        self.invitationCode = invCode
+    }
+    
+    public func setCreatorId(creatorID: String) {
+        self.creator = creatorID
+    }
+    
+    public func setAdminId(adminID: String) {
+        self.admin = adminID
     }
     
     required public init(from decoder: Decoder) throws {

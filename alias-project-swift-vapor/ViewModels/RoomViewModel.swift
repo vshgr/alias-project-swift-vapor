@@ -33,7 +33,16 @@ class RoomViewModel: ObservableObject {
         
     }
     
-    func deleteRoom() {
+    func deleteRoom() async throws {
+        let urlString = Constants.baseURL + GameRoomEndpoints.closeRoom
         
+        guard let url = URL(string: urlString) else {
+            throw HttpError.badURL
+        }
+        
+        if !(try await HttpClient.shared.execute(url: url,
+                                               httpMethod: HttpMethods.POST.rawValue)) {
+            print("error deleting")
+        }
     }
 }

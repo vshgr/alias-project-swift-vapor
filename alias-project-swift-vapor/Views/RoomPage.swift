@@ -85,7 +85,9 @@ struct RoomPage: View {
                     .foregroundColor(.black)
             }
             Button {
-                viewModel.deleteRoom()
+                Task {
+                    try await viewModel.deleteRoom()
+                }
             } label: {
                 Image(systemName: "trash.fill")
                     .foregroundColor(.black)

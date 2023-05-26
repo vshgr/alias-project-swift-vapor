@@ -17,84 +17,94 @@ struct MainPage: View {
     }
     
     var body: some View {
-        
-        ZStack {
-            Color.white.edgesIgnoringSafeArea(.all)
-            VStack (alignment: .leading) {
-                HStack(spacing: Constants.padding) {
-                    TextFieldView(hint: "enter code...", text: $viewModel.roomCode)
-                        .keyboardType(.numberPad)
-                    ButtonView(title: "go") {
-                        viewModel.enterRoomButtonClicked()
-                    }
-                }
-                TitleView(title: "Open rooms")
-                    .padding(.top , Constants.smallPadding)
-                ScrollView {
-                    ForEach (rooms) { room in
-                        RoomView(room: room, buttonClicked: {viewModel.isRoomPagePresented = true})
-                            .navigationDestination(isPresented: $viewModel.isRoomPagePresented) {
-                                RoomPage(viewModel: RoomViewModel(room: room))
-                            }
-                            .padding(.bottom, Constants.smallPadding)
-                    }
-                }
-                
-                HStack {
-                    Button(action: {
-                        viewModel.logoutButtonClicked()
-                    }, label: {
-                        HStack {
-                            Text("logout")
-                            Image(systemName: "rectangle.portrait.and.arrow.forward")
+        NavigationStack {
+            ZStack {
+                Color.white.edgesIgnoringSafeArea(.all)
+                VStack (alignment: .leading) {
+                    HStack(spacing: Constants.padding) {
+                        TextFieldView(hint: "enter code...", text: $viewModel.roomCode)
+                            .keyboardType(.numberPad)
+                        ButtonView(title: "go") {
+                            viewModel.enterRoomButtonClicked()
                         }
-                        .foregroundColor(.black)
-                    })
-                    Spacer()
-                    ButtonView(title: "create room") {
-                        viewModel.isAddRoomPresented = true
                     }
-                    .alert("New room", isPresented: $viewModel.isAddRoomPresented, actions: {
-                        TextField("room name...", text: $viewModel.newRoomName)
-                        Button("Create private room", action: {
-                            Task {
-                                do {
-                                    try await viewModel.createPrivateRoomButtonClicked()
-                                } catch {
-                                    print(error)
+                    TitleView(title: "Open rooms")
+                        .padding(.top , Constants.smallPadding)
+                    ScrollView {
+                        ForEach (rooms) { room in
+                            RoomView(room: room, buttonClicked: {viewModel.isRoomPagePresented = true})
+                                .navigationDestination(isPresented: $viewModel.isRoomPagePresented) {
+                                    RoomPage(viewModel: RoomViewModel(room: room))
                                 }
+                                .padding(.bottom, Constants.smallPadding)
+                        }
+                    }
+                    .refreshable {
+                        Task {
+                            try await viewModel.fetchRooms() { (rooms) in
+                                self.rooms = rooms
                             }
+                        }
+                    }
+                    
+                    HStack {
+                        Button(action: {
+                            viewModel.logoutButtonClicked()
+                        }, label: {
+                            HStack {
+                                Text("logout")
+                                Image(systemName: "rectangle.portrait.and.arrow.forward")
+                            }
+                            .foregroundColor(.black)
                         })
-                        Button("Create public room", action: {
-                            Task {
-                                do {
-                                    try await viewModel.createPublicRoomButtonClicked()
-                                } catch {
-                                    print(error)
+                        Spacer()
+                        ButtonView(title: "create room") {
+                            viewModel.isAddRoomPresented = true
+                        }
+                        .alert("New room", isPresented: $viewModel.isAddRoomPresented, actions: {
+                            TextField("room name...", text: $viewModel.newRoomName)
+                            Button("Create private room", action: {
+                                Task {
+                                    do {
+                                        try await viewModel.createPrivateRoomButtonClicked()
+                                    } catch {
+                                        print(error)
+                                    }
                                 }
-                            }
+                            })
+                            Button("Create public room", action: {
+                                Task {
+                                    do {
+                                        try await viewModel.createPublicRoomButtonClicked()
+                                    } catch {
+                                        print(error)
+                                    }
+                                }
+                            })
+                            Button("Cancel", role: .cancel, action: {})
+                        }, message: {
+                            Text("Please enter new room name.")
                         })
-                        Button("Cancel", role: .cancel, action: {})
-                    }, message: {
-                        Text("Please enter new room name.")
-                    })
+                    }
+                    .padding(.top, Constants.smallPadding)
                 }
-                .padding(.top, Constants.smallPadding)
+            }
+            .navigationBarBackButtonHidden(true)
+            .navigationDestination(isPresented: $viewModel.isLoggedOut) {
+                WelcomeView()
+            }
+            .textFieldStyle(.roundedBorder)
+            .padding(.all, Constants.padding)
+            .onAppear() {
+                Task {
+                    try await viewModel.fetchRooms() { (rooms) in
+                        self.rooms = rooms
+                    }
+                }
             }
         }
         .navigationBarBackButtonHidden(true)
-        .navigationDestination(isPresented: $viewModel.isLoggedOut) {
-            WelcomeView()
-        }
-        .textFieldStyle(.roundedBorder)
-        .padding(.all, Constants.padding)
-        .onAppear() {
-            Task {
-                try await viewModel.fetchRooms() { (rooms) in
-                    self.rooms = rooms
-                }
-            }
-        }
+        
     }
 }
 

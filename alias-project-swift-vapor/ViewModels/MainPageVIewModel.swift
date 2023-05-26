@@ -41,16 +41,21 @@ class MainPageViewModel: ObservableObject {
             throw HttpError.badURL
         }
         
-        guard let username = HttpClient.shared.loadUserName() else {
-            print("error")
-            return
-        }
-        
-        let room = Room(name: newRoomName, creator: username, isPrivate: false, admin: username)
-        
+        var room = Room(name: newRoomName, isPrivate: false, creator: nil, admin: nil, invitationCode: nil)
+                
         try await HttpClient.shared.sendData(to: url,
                                              object: room,
-                                             httpMethod: HttpMethods.POST.rawValue)
+                                             httpMethod: HttpMethods.POST.rawValue) { result in
+            switch result {
+            case .success(let roomResp):
+                print(roomResp.creator ?? "")
+                DispatchQueue.main.async {
+                    self.publicRooms.append(roomResp)
+                }
+            case .failure(let error):
+                print("Ошибка создания публичной комнаты: \(error)")
+            }
+        }
     }
     
     func createPrivateRoomButtonClicked() async throws {
@@ -60,16 +65,18 @@ class MainPageViewModel: ObservableObject {
             throw HttpError.badURL
         }
         
-        guard let username = HttpClient.shared.loadUserName() else {
-            print("error")
-            return
-        }
-        
-        let room = Room(name: newRoomName, creator: username, isPrivate: true, admin: username)
+        var room = Room(name: newRoomName, isPrivate: true, creator: nil, admin: nil, invitationCode: nil)
                 
         try await HttpClient.shared.sendData(to: url,
                                              object: room,
-                                             httpMethod: HttpMethods.POST.rawValue)
+                                             httpMethod: HttpMethods.POST.rawValue) { result in
+            switch result {
+            case .success(let roomResp):
+                room = roomResp
+            case .failure(let error):
+                print("Ошибка создания публичной комнаты: \(error)")
+            }
+        }
     }
     
     func logoutButtonClicked() {
