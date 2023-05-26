@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 enum HttpError: Error {
     case badURL, badResponse, errorDecodingData, invalidURL
@@ -86,7 +87,10 @@ class HttpClient: ObservableObject {
             
             let decoder = JSONDecoder()
             
+            
             let dataDecoded = try? decoder.decode([T].self, from: data)
+            
+            
             print("а вот данные \(String(describing: dataDecoded)) они")
             DispatchQueue.main.async {
                 completion(dataDecoded, nil)
@@ -113,7 +117,7 @@ class HttpClient: ObservableObject {
         return true
     }
     
-    func sendData<T: Codable>(to url: URL, object: T, httpMethod: String, completion: @escaping (Result<T, Error>) -> Void) async throws {
+    func sendDataCreateRoom(to url: URL, object: Room, httpMethod: String, completion: @escaping (Result<Room, Error>) -> Void) async throws {
         var request = URLRequest(url: url)
         
         request.httpMethod = httpMethod
@@ -138,76 +142,14 @@ class HttpClient: ObservableObject {
                                 isPrivate: responseJSON["isPrivate"] as? Bool ?? false,
                                 creator: creatorId?["id"] as? String ?? "",
                                 admin: adminId?["id"] as? String ?? "",
-                                invitationCode: responseJSON["invitationCode"] as? Int ?? 0)
+                                invCode: responseJSON["invitationCode"] as? String ?? "aa")
                 
-                completion(.success(room as! T))
+                completion(.success(room))
             }
         }
         
         task.resume()
     }
-    
-//    func createRoom(name: String, isPrivate: Bool, completion: @escaping (Result<Room, Error>) -> Void) async throws {
-//        let params = ["name": name, "isPrivate": isPrivate] as [String : Any]
-//        let urlString = Constants.baseURL + GameRoomEndpoints.createRoom
-//        guard let url = URL(string: urlString) else {
-//            return
-//        }
-//
-//        var request = URLRequest(url: url)
-//        request.httpMethod = HttpMethods.POST.rawValue
-//        request.setValue(MIMEType.JSON.rawValue,
-//                         forHTTPHeaderField: HttpHeaders.contentType.rawValue)
-//
-//        // Конвертируем параметры запроса в JSON
-//        do {
-//            request.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
-//        } catch {
-//            completion(.failure(error))
-//        }
-//
-//        // Отправляем запрос
-//        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-//            if let error = error {
-//                completion(.failure(error))
-//            }
-//
-//            // Проверяем наличие данных
-//            guard let data = data else {
-//                completion(.failure(NSError(domain: "No data received", code: 0, userInfo: nil)))
-//                return
-//            }
-//
-//            // Парсим полученные данные
-//            do {
-//                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-//                var room = Room(name: name, isPrivate: isPrivate)
-//                if let invitationCode = json?["invitationCode"] as? String {
-//                    room.setInvitationCode(invCode: Int(invitationCode) ?? 0)
-//                } else {
-//                    completion(.failure(NSError(domain: "Invalid response", code: 0, userInfo: nil)))
-//                }
-//
-//                if let creatorId = json?["creator"] as? [String: Any] {
-//                    room.setCreatorId(creatorID: creatorId["id"] as? String ?? "")
-//                } else {
-//                    completion(.failure(NSError(domain: "Invalid response", code: 0, userInfo: nil)))
-//                }
-//
-//                if let adminId = json?["admin"] as? [String: Any] {
-//                    room.setAdminId(adminID: adminId["id"] as? String ?? "")
-//                } else {
-//                    completion(.failure(NSError(domain: "Invalid response", code: 0, userInfo: nil)))
-//                }
-//
-//                completion(.success(room))
-//            } catch {
-//                completion(.failure(error))
-//            }
-//        }
-//
-//        task.resume()
-//    }
     
     func logout(completion: @escaping (Result<Bool,Error>) -> Void) {
         let urlString = Constants.baseURL + UserEndpoints.logout

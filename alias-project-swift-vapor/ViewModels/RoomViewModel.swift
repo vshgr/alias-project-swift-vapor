@@ -12,13 +12,14 @@ class RoomViewModel: ObservableObject {
     @Published var teamName: String = ""
     @Published var showingAlert: Bool = false
     @Published var isAddTeamPresented: Bool = false
-    @Published var roomCode: Int = Int.random(in: 10000...99999)
+    @Published var roomCode: String = "aaa"
     @Published var isSettingsPagePresented: Bool = false
     
     let room: Room
     
-    init(room: Room){
+    init(room: Room) {
         self.room = room
+        self.roomCode = room.invitationCode ?? "aa"
     }
     
     func addTeam() {

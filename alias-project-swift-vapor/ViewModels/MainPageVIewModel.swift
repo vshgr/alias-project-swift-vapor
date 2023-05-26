@@ -41,14 +41,13 @@ class MainPageViewModel: ObservableObject {
             throw HttpError.badURL
         }
         
-        var room = Room(name: newRoomName, isPrivate: false, creator: nil, admin: nil, invitationCode: nil)
+        let room = Room(name: newRoomName, isPrivate: false, creator: nil, admin: nil, invCode: nil)
                 
-        try await HttpClient.shared.sendData(to: url,
+        try await HttpClient.shared.sendDataCreateRoom(to: url,
                                              object: room,
                                              httpMethod: HttpMethods.POST.rawValue) { result in
             switch result {
             case .success(let roomResp):
-                print(roomResp.creator ?? "")
                 DispatchQueue.main.async {
                     self.publicRooms.append(roomResp)
                 }
@@ -65,9 +64,9 @@ class MainPageViewModel: ObservableObject {
             throw HttpError.badURL
         }
         
-        var room = Room(name: newRoomName, isPrivate: true, creator: nil, admin: nil, invitationCode: nil)
+        var room = Room(name: newRoomName, isPrivate: true, creator: nil, admin: nil, invCode: nil)
                 
-        try await HttpClient.shared.sendData(to: url,
+        try await HttpClient.shared.sendDataCreateRoom(to: url,
                                              object: room,
                                              httpMethod: HttpMethods.POST.rawValue) { result in
             switch result {
