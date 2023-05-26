@@ -2,26 +2,27 @@ import Foundation
 
 class MainPageViewModel: ObservableObject {
     
-    @Published var publicRooms: [Room] = [.init(name: "Alias", invitationCode: "123", isPrivate: false, creator: User(name: "Yana", email: "wishnya@mail.ru", passwordHash: "aaaaaaaa"), admin: User(name: "Yana", email: "wishnya@mail.ru", passwordHash: "aaaaaaaa"), pointsPerWord: 3)]
+    @Published var publicRooms: [Room] = []
     
     @Published var newRoomName: String = ""
     @Published var roomCode: String = ""
     @Published var password: String = ""
     @Published var roomTitle: String = ""
+    @Published var isAlertPresented: Bool = false
+    @Published var isLoggedOut: Bool = false
     @Published var isRoomPagePresented: Bool = false
     @Published var isAddRoomPresented: Bool = false
     
-    public func fetchRooms() async throws {
+    public func fetchRooms(completion: @escaping ([Room]) -> Void) async throws {
         let urlString = Constants.baseURL + GameRoomEndpoints.getAllRooms
         
         guard let url = URL(string: urlString) else {
             throw HttpError.badURL
         }
         
-        let roomResponse: [Room] = try await HttpClient.shared.fetch(url: url)
-        
-        DispatchQueue.main.async {
-            self.publicRooms = roomResponse
+        await HttpClient.shared.fetch(url: url) { [weak self] (rooms, error) in
+            self?.publicRooms = rooms ?? [Room]()
+            completion(self?.publicRooms ?? [Room]())
         }
     }
     
@@ -40,14 +41,46 @@ class MainPageViewModel: ObservableObject {
             throw HttpError.badURL
         }
         
-        let room = Room(name: newRoomName, invitationCode: roomCode, isPrivate: false, creator: User(name: "yana", email: "wishnya@mail.ru", passwordHash: "aaaaa"), admin: User(name: "yana", email: "wishnya@mail.ru", passwordHash: "aaaaa"))
+        guard let username = HttpClient.shared.loadUserName() else {
+            print("error")
+            return
+        }
+        
+        let room = Room(name: newRoomName, creator: username, isPrivate: false, admin: username)
         
         try await HttpClient.shared.sendData(to: url,
                                              object: room,
                                              httpMethod: HttpMethods.POST.rawValue)
     }
     
-    func createPrivateRoomButtonClicked() {
+    func createPrivateRoomButtonClicked() async throws {
+        let urlString = Constants.baseURL + GameRoomEndpoints.createRoom
         
+        guard let url = URL(string: urlString) else {
+            throw HttpError.badURL
+        }
+        
+        guard let username = HttpClient.shared.loadUserName() else {
+            print("error")
+            return
+        }
+        
+        let room = Room(name: newRoomName, creator: username, isPrivate: true, admin: username)
+                
+        try await HttpClient.shared.sendData(to: url,
+                                             object: room,
+                                             httpMethod: HttpMethods.POST.rawValue)
+    }
+    
+    func logoutButtonClicked() {
+        HttpClient.shared.logout { result in
+            switch result {
+            case .success:
+                self.isLoggedOut = true
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
+        isAlertPresented = !isLoggedOut
     }
 }

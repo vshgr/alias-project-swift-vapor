@@ -31,6 +31,7 @@
 		48105DDD2A18D9DC005216AE /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48105DD72A18D9DC005216AE /* SignInView.swift */; };
 		48105DDE2A18D9DC005216AE /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48105DD82A18D9DC005216AE /* RegisterView.swift */; };
 		48105DDF2A18D9DC005216AE /* RoomPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48105DD92A18D9DC005216AE /* RoomPage.swift */; };
+		48105DE62A1E971F005216AE /* TextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48105DE52A1E971F005216AE /* TextFieldView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,7 @@
 		48105DD72A18D9DC005216AE /* SignInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		48105DD82A18D9DC005216AE /* RegisterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		48105DD92A18D9DC005216AE /* RoomPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomPage.swift; sourceTree = "<group>"; };
+		48105DE52A1E971F005216AE /* TextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 				48105DBA2A18D9C3005216AE /* ParticipantView.swift */,
 				48105DBB2A18D9C3005216AE /* TeamView.swift */,
 				48105DBC2A18D9C3005216AE /* ButtonView.swift */,
+				48105DE52A1E971F005216AE /* TextFieldView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -255,7 +258,7 @@
 				48105DDE2A18D9DC005216AE /* RegisterView.swift in Sources */,
 				48105DBF2A18D9C3005216AE /* ParticipantView.swift in Sources */,
 				48105DC72A18D9D1005216AE /* Room.swift in Sources */,
-				3CCF41CD2A1B53ED00B686D1 /* HttpClient.swift in Sources */,
+				48105DE62A1E971F005216AE /* TextFieldView.swift in Sources */,
 				48105DCF2A18D9D8005216AE /* WelcomeViewModel.swift in Sources */,
 				48105DCE2A18D9D8005216AE /* MainPageVIewModel.swift in Sources */,
 				48105DD22A18D9D8005216AE /* RegisterViewModel.swift in Sources */,

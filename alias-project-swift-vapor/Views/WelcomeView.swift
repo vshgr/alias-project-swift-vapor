@@ -37,6 +37,7 @@ struct WelcomeView: View {
             }
             .padding(.horizontal, Constants.padding)
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

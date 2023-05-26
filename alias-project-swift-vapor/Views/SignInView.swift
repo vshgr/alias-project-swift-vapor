@@ -18,8 +18,8 @@ struct SignInView: View {
             VStack (alignment: .leading) {
                 Spacer()
                 
-                TextField("email...", text: $viewModel.email)
-                SecureField("password...", text: $viewModel.password)
+                TextFieldView(hint: "email...", text: $viewModel.email)
+                TextFieldView(hint: "password...", text: $viewModel.password)
                 
                 Spacer()
                 
@@ -28,7 +28,6 @@ struct SignInView: View {
                     
                     VStack (alignment: .trailing, spacing: Constants.smallPadding) {
                         ButtonView(title: "sign in") {
-                            viewModel.isMainPagePresented = true
                             viewModel.singInButtonClicked()
                         }
                         .navigationDestination(isPresented: $viewModel.isMainPagePresented) {
@@ -38,6 +37,9 @@ struct SignInView: View {
                 }
                 .padding(.bottom, Constants.padding)
             }
+        }
+        .alert(isPresented: $viewModel.isAlertPresented) {
+            Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("OK")))
         }
         .navigationTitle("Authorisation")
         .textFieldStyle(.roundedBorder)

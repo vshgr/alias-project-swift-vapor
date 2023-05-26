@@ -10,22 +10,28 @@ import SwiftUI
 struct MainPage: View {
     
     @ObservedObject private var viewModel = MainPageViewModel()
+    @State private var rooms: [Room] = [Room]()
+    
+    public init(viewModel: MainPageViewModel = MainPageViewModel()) {
+        self.viewModel = viewModel
+    }
     
     var body: some View {
+        
         ZStack {
             Color.white.edgesIgnoringSafeArea(.all)
             VStack (alignment: .leading) {
-                HStack {
-                    TextField("enter code...", text: $viewModel.roomCode)
+                HStack(spacing: Constants.padding) {
+                    TextFieldView(hint: "enter code...", text: $viewModel.roomCode)
                         .keyboardType(.numberPad)
-                    ButtonView(title: "enter room") {
+                    ButtonView(title: "go") {
                         viewModel.enterRoomButtonClicked()
                     }
                 }
                 TitleView(title: "Open rooms")
                     .padding(.top , Constants.smallPadding)
                 ScrollView {
-                    ForEach (viewModel.publicRooms) { room in
+                    ForEach (rooms) { room in
                         RoomView(room: room, buttonClicked: {viewModel.isRoomPagePresented = true})
                             .navigationDestination(isPresented: $viewModel.isRoomPagePresented) {
                                 RoomPage(viewModel: RoomViewModel(room: room))
@@ -35,6 +41,15 @@ struct MainPage: View {
                 }
                 
                 HStack {
+                    Button(action: {
+                        viewModel.logoutButtonClicked()
+                    }, label: {
+                        HStack {
+                            Text("logout")
+                            Image(systemName: "rectangle.portrait.and.arrow.forward")
+                        }
+                        .foregroundColor(.black)
+                    })
                     Spacer()
                     ButtonView(title: "create room") {
                         viewModel.isAddRoomPresented = true
@@ -42,7 +57,13 @@ struct MainPage: View {
                     .alert("New room", isPresented: $viewModel.isAddRoomPresented, actions: {
                         TextField("room name...", text: $viewModel.newRoomName)
                         Button("Create private room", action: {
-                            viewModel.createPrivateRoomButtonClicked()
+                            Task {
+                                do {
+                                    try await viewModel.createPrivateRoomButtonClicked()
+                                } catch {
+                                    print(error)
+                                }
+                            }
                         })
                         Button("Create public room", action: {
                             Task {
@@ -62,14 +83,15 @@ struct MainPage: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .navigationDestination(isPresented: $viewModel.isLoggedOut) {
+            WelcomeView()
+        }
         .textFieldStyle(.roundedBorder)
         .padding(.all, Constants.padding)
         .onAppear() {
             Task {
-                do {
-                    try await viewModel.fetchRooms()
-                } catch {
-                    print(error)
+                try await viewModel.fetchRooms() { (rooms) in
+                    self.rooms = rooms
                 }
             }
         }
