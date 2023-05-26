@@ -16,7 +16,7 @@ class RegisterViewModel: ObservableObject {
     @Published var isMainPagePresented: Bool = false
     
     func registerButtonClicked() {
-        HttpClient.shared.removeAuthToken()
+        HttpClient.shared.logoutDefaults()
         HttpClient.shared.register(name: username, email: email, password: password) { result in
             switch result {
             case .success(let token):

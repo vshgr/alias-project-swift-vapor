@@ -16,7 +16,7 @@ class SingInViewModel: ObservableObject {
     
     
     func singInButtonClicked() {
-        HttpClient.shared.removeAuthToken()
+        HttpClient.shared.logoutDefaults()
         HttpClient.shared.login(email: email, password: password) { result in
             switch result {
             case .success(let token):

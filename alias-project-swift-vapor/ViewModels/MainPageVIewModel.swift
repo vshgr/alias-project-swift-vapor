@@ -41,7 +41,12 @@ class MainPageViewModel: ObservableObject {
             throw HttpError.badURL
         }
         
-        let room = Room(name: newRoomName, creator: "ya", isPrivate: false, admin: "ya")
+        guard let username = HttpClient.shared.loadUserName() else {
+            print("error")
+            return
+        }
+        
+        let room = Room(name: newRoomName, creator: username, isPrivate: false, admin: username)
         
         try await HttpClient.shared.sendData(to: url,
                                              object: room,
@@ -55,8 +60,13 @@ class MainPageViewModel: ObservableObject {
             throw HttpError.badURL
         }
         
-        let room = Room(name: newRoomName, creator: "ya", isPrivate: true, admin: "ya")
+        guard let username = HttpClient.shared.loadUserName() else {
+            print("error")
+            return
+        }
         
+        let room = Room(name: newRoomName, creator: username, isPrivate: true, admin: username)
+                
         try await HttpClient.shared.sendData(to: url,
                                              object: room,
                                              httpMethod: HttpMethods.POST.rawValue)

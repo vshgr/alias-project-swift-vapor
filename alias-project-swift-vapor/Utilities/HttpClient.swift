@@ -34,15 +34,24 @@ class HttpClient: ObservableObject {
     func saveAuthToken(token: String) {
         UserDefaults.standard.set(token, forKey: "AuthToken")
     }
+    
+    func saveUsername(username: String) {
+        UserDefaults.standard.set(username, forKey: "Name")
+    }
 
     // Функция для загрузки токена авторизации из UserDefaults
     func loadAuthToken() -> String? {
         return UserDefaults.standard.string(forKey: "AuthToken")
     }
     
+    func loadUserName() -> String? {
+        return UserDefaults.standard.string(forKey: "Name")
+    }
+    
     // Функция для удаления токена авторизации из UserDefaults
-    func removeAuthToken() {
+    func logoutDefaults() {
         UserDefaults.standard.set(nil, forKey: "AuthToken")
+        UserDefaults.standard.set(nil, forKey: "Name")
     }
     
     func isAuthenticated() -> Bool {
@@ -100,11 +109,12 @@ class HttpClient: ObservableObject {
         var request = URLRequest(url: url)
         
         request.httpMethod = httpMethod
-        request.addValue(MIMEType.JSON.rawValue,
-                         forHTTPHeaderField: HttpHeaders.contentType.rawValue)
-        
+        let token = loadAuthToken()
+        request.allHTTPHeaderFields = [
+            "Content-Type": "application/json",
+            "Authorization":"Bearer \(token ?? "error")"
+        ]
         request.httpBody = try? JSONEncoder().encode(object)
-        print(String(decoding: request.httpBody!, as: UTF8.self))
         
         let (_, response) = try await URLSession.shared.data(for: request)
         
@@ -179,6 +189,7 @@ class HttpClient: ObservableObject {
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
                 if let token = json?["value"] as? String {
+                    self.saveUsername(username: json?["name"] as? String ?? "")
                     completion(.success(token))
                 } else {
                     completion(.failure(NSError(domain: "Invalid response", code: 0, userInfo: nil)))
