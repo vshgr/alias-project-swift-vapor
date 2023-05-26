@@ -25,12 +25,12 @@ struct LoginResponse: Codable {
 
 
 class HttpClient: ObservableObject {
-        
+    
     public init() {
     }
     
     static let shared = HttpClient()
-
+    
     // Функция для сохранения токена авторизации в UserDefaults
     func saveAuthToken(token: String) {
         UserDefaults.standard.set(token, forKey: "AuthToken")
@@ -43,7 +43,7 @@ class HttpClient: ObservableObject {
     func saveUsername(username: String) {
         UserDefaults.standard.set(username, forKey: "Name")
     }
-
+    
     // Функция для загрузки токена авторизации из UserDefaults
     func loadAuthToken() -> String? {
         return UserDefaults.standard.string(forKey: "AuthToken")
@@ -66,7 +66,6 @@ class HttpClient: ObservableObject {
     func isAuthenticated() -> Bool {
         return UserDefaults.standard.string(forKey: "AuthToken") != nil
     }
-
 
     func fetch<T: Codable>(url: URL, completion: @escaping ([T]?, Error?) -> Void) {
         var request = URLRequest(url: url)
@@ -122,6 +121,32 @@ class HttpClient: ObservableObject {
         return true
     }
     
+    func deleteRoomByID(roomID: String, url: URL) {
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        let bodyData = "roomID=\(roomID)"
+        request.httpBody = bodyData.data(using: .utf8)
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let data = data else {
+                print("No data received")
+                return
+            }
+            
+            if let responseString = String(data: data, encoding: .utf8) {
+                print("Response: \(responseString)")
+            }
+        }
+        
+        task.resume()
+    }
+    
     func joinRoom(invCode: String, gameRoomId: String, completion: @escaping (Result<Bool, Error>) -> Void) {
         let params = ["invitationCode": invCode, "gameRoomId": gameRoomId]
         let urlString = Constants.baseURL + GameRoomEndpoints.joinRoom
@@ -173,12 +198,17 @@ class HttpClient: ObservableObject {
             }
             let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
             if let responseJSON = responseJSON as? [String: Any] {
+                let creatorID = responseJSON["creator"] as? [String: Any]
+                let creatorUserId = UserId(id: creatorID?["id"] as? String ?? "")
+                let adminID = responseJSON["admin"] as? [String: Any]
+                let adminUserId = UserId(id: adminID?["id"] as? String ?? "")
                 let room = Room(name: responseJSON["name"] as? String ?? "",
                                 isPrivate: responseJSON["isPrivate"] as? Bool ?? false,
-                                creator: responseJSON["creator"] as? UserId,
-                                admin: responseJSON["admin"] as? UserId,
+                                creator: creatorUserId,
+                                admin: adminUserId,
                                 invCode: responseJSON["invitationCode"] as? String ?? "aa")
                 
+                print(creatorUserId.id)
                 completion(.success(room))
             }
         }
@@ -213,7 +243,7 @@ class HttpClient: ObservableObject {
         UserDefaults.standard.set(nil, forKey: "AuthToken")
         completion(.success(true))
     }
-
+    
     
     func login(email: String, password: String, completion: @escaping (Result<String, Error>) -> Void) {
         let params = ["email": email, "password": password]
@@ -290,7 +320,7 @@ class HttpClient: ObservableObject {
             if let error = error {
                 completion(.failure(error))
             }
-                        
+            
             self.login(email: email, password: password) { result in
                 switch result {
                 case .success(let token):

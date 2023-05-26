@@ -26,6 +26,9 @@ class RoomViewModel: ObservableObject {
         
     }
     
+    func joinRoom(room: Room) {
+    }
+    
     func kickMember() {
         
     }
@@ -41,9 +44,10 @@ class RoomViewModel: ObservableObject {
             throw HttpError.badURL
         }
         
-        if !(try await HttpClient.shared.execute(url: url,
-                                                 httpMethod: HttpMethods.POST.rawValue, id: room.id ?? "")) {
-            print("error deleting")
-        }
+        HttpClient.shared.deleteRoomByID(roomID: room.id ?? "", url: url)
+//        if !(try await HttpClient.shared.execute(url: url,
+//                                                 httpMethod: HttpMethods.POST.rawValue, id: room.id ?? "")) {
+//            print("error deleting")
+//        }
     }
 }

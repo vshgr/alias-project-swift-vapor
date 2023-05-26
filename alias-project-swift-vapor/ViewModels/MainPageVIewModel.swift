@@ -31,7 +31,6 @@ class MainPageViewModel: ObservableObject {
     }
     
     func enterRoomButtonClicked() {
-        
     }
     
     func roomClicked() {

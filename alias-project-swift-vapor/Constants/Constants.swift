@@ -5,7 +5,7 @@ public enum Constants {
     public static let smallPadding: CGFloat = 15
     public static let temCircleWH: CGFloat = 60
     
-    public static let baseURL: String = "https://9db8-89-175-18-189.ngrok-free.app/"
+    public static let baseURL: String = "https://d059-83-220-239-204.ngrok-free.app/"
 }
 
 public enum GameRoomEndpoints {
