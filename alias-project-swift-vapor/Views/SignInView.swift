@@ -27,7 +27,7 @@ struct SignInView: View {
                     Spacer()
                     
                     VStack (alignment: .trailing, spacing: Constants.smallPadding) {
-                        ButtonView(title: "sign in") {
+                        ButtonView(title: "sign in", arrow: "right") {
                             viewModel.singInButtonClicked()
                         }
                         .navigationDestination(isPresented: $viewModel.isMainPagePresented) {

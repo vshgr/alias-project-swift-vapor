@@ -28,7 +28,7 @@ struct RegisterView: View {
                     Spacer()
                     
                     VStack (alignment: .trailing, spacing: Constants.padding) {
-                        ButtonView(title: "register") {
+                        ButtonView(title: "register", arrow: "right") {
                             viewModel.registerButtonClicked()
                         }
                         .navigationDestination(isPresented: $viewModel.isMainPagePresented) {

@@ -11,6 +11,7 @@ struct MainPage: View {
     
     @ObservedObject private var viewModel = MainPageViewModel()
     @State private var rooms: [Room] = [Room]()
+    @EnvironmentObject var appRouter: AppRouter
     
     public init(viewModel: MainPageViewModel = MainPageViewModel()) {
         self.viewModel = viewModel
@@ -24,7 +25,7 @@ struct MainPage: View {
                     HStack(spacing: Constants.padding) {
                         TextFieldView(hint: "enter code...", text: $viewModel.roomCode)
                             .keyboardType(.numberPad)
-                        ButtonView(title: "go") {
+                        ButtonView(title: "go", arrow: "right") {
                             viewModel.enterRoomButtonClicked()
                         }
                     }
@@ -32,11 +33,10 @@ struct MainPage: View {
                         .padding(.top , Constants.smallPadding)
                     ScrollView {
                         ForEach (viewModel.publicRooms) { room in
-                            RoomView(room: room, buttonClicked: {viewModel.isRoomPagePresented = true})
-                                .navigationDestination(isPresented: $viewModel.isRoomPagePresented) {
-                                    RoomPage(viewModel: RoomViewModel(room: room))
-                                }
-                                .padding(.bottom, Constants.smallPadding)
+                            RoomView(room: room, buttonClicked: {
+                                appRouter.goToDetails(item: room)
+                            })
+                            .padding(.bottom, Constants.smallPadding)
                         }
                     }
                     .refreshable {
@@ -46,6 +46,7 @@ struct MainPage: View {
                     HStack {
                         Button(action: {
                             viewModel.logoutButtonClicked()
+                            appRouter.navigateTo(screen: .welcome)
                         }, label: {
                             HStack {
                                 Text("logout")
@@ -54,7 +55,7 @@ struct MainPage: View {
                             .foregroundColor(.black)
                         })
                         Spacer()
-                        ButtonView(title: "create room") {
+                        ButtonView(title: "create room", arrow: "right") {
                             viewModel.isAddRoomPresented = true
                         }
                         .alert("New room", isPresented: $viewModel.isAddRoomPresented, actions: {
@@ -86,9 +87,6 @@ struct MainPage: View {
                 }
             }
             .navigationBarBackButtonHidden(true)
-            .navigationDestination(isPresented: $viewModel.isLoggedOut) {
-                WelcomeView()
-            }
             .textFieldStyle(.roundedBorder)
             .padding(.all, Constants.padding)
             .onAppear() {

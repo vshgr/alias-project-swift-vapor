@@ -9,7 +9,8 @@ import SwiftUI
 
 struct WelcomeView: View {
     @ObservedObject private var viewModel = WelcomeViewModel()
-    
+    @EnvironmentObject var appRouter: AppRouter
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -18,14 +19,14 @@ struct WelcomeView: View {
                     Spacer()
                     VStack (alignment: .leading, spacing: Constants.smallPadding) {
                         Spacer()
-                        ButtonView(title: "sign in") {
+                        ButtonView(title: "sign in", arrow: "right") {
                             viewModel.isLogInPresented = true
                         }
                         .navigationDestination(isPresented: $viewModel.isLogInPresented) {
                                 SignInView()
                             }
                         
-                        ButtonView(title: "register") {
+                        ButtonView(title: "register", arrow: "right") {
                             viewModel.isRegisterPresented = true
                         }
                         .navigationDestination(isPresented: $viewModel.isRegisterPresented) {

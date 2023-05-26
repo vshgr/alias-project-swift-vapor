@@ -7,15 +7,33 @@
 
 import SwiftUI
 
-@main
-struct alias_project_swift_vaporApp: App {
-    var body: some Scene {
-        WindowGroup {
-            if !HttpClient.shared.isAuthenticated() {
-                WelcomeView()
-            } else {
+struct ContentView: View {
+    @EnvironmentObject var appRouter: AppRouter
+    
+    var body: some View {
+        switch appRouter.currentScreen {
+        case .welcome:
+            if HttpClient.shared.isAuthenticated() {
                 MainPage()
+            } else {
+                WelcomeView()
             }
+        case .home:
+            MainPage()
+        case .detail(item: let item):
+            RoomPage(viewModel: RoomViewModel(room: item))
         }
     }
 }
+
+@main
+struct alias_project_swift_vaporApp: App {
+    let appRouter = AppRouter()
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView().environmentObject(appRouter)
+        }
+    }
+}
+
